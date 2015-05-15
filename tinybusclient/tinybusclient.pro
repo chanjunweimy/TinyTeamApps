@@ -13,11 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    informbus.cpp
+           $$_PRO_FILE_PWD_/src/mainwindow.cpp \
+           $$_PRO_FILE_PWD_/src/informbus.cpp
 
-HEADERS  += mainwindow.h \
-    informbus.h
+HEADERS  += $$_PRO_FILE_PWD_/include/mainwindow.h \
+            $$_PRO_FILE_PWD_/include/informbus.h
 
 FORMS    +=
 
