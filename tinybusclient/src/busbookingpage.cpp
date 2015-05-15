@@ -15,6 +15,8 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     topTabWidget->setLayout(topTabLayout);
 
     topTabWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+
+
 }
 
 BusBookingPage::~BusBookingPage() {

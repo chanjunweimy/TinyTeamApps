@@ -1,0 +1,106 @@
+{
+	"busStops": [
+		{
+			"busStopNumber": "01012",
+			"busStopDescription": "HOTEL GRAND PACIFIC",
+			"latitude": "1.297493",
+			"longitude": "103.852755",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "007"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "032"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "051"
+				},
+				{
+					"busNumber": "063"
+				},
+				{
+					"busNumber": "080"
+				},
+				{
+					"busNumber": "175"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01013",
+			"busStopDescription": "ST. JOSEPH'S CH",
+			"latitude": "1.298377",
+			"longitude": "103.853147",
+			"busServices": [
+				{
+					"busNumber": "130"
+				},
+				{
+					"busNumber": "133"
+				},
+				{
+					"busNumber": "145"
+				},
+				{
+					"busNumber": "197"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01019",
+			"busStopDescription": "BRAS BASAH CPLX",
+			"latitude": "1.296914",
+			"longitude": "103.854082",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "130"
+				},
+				{
+					"busNumber": "133"
+				}
+			]
+		},
+				{
+			"busStopNumber": "01059",
+			"busStopDescription": "BUGIS STN",
+			"latitude": "1.299417",
+			"longitude": "103.855554",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "130"
+				},
+				{
+					"busNumber": "133"
+				}
+			]
+		}
+
+	] 
+}

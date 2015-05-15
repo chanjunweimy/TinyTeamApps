@@ -30,3 +30,6 @@ MOBILITY =
 
 INCLUDEPATH +=  $$_PRO_FILE_PWD_/src \
                 $$_PRO_FILE_PWD_/include
+
+RESOURCES += \
+    resource.qrc
