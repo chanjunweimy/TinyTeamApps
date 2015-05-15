@@ -1,0 +1,14 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\busbookingpage.o
+./debug\locationpage.o
+./debug\buschoicepage.o
+./debug\busstopsjsonreader.o
+./debug\busservicepage.o
+./debug\qrc_resource.o
+./debug\moc_mainwindow.o
+./debug\moc_busbookingpage.o
+./debug\moc_busstopsjsonreader.o
+./debug\moc_busservicepage.o
+);
