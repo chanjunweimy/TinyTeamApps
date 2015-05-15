@@ -78,7 +78,7 @@
 				}
 			]
 		},
-				{
+		{
 			"busStopNumber": "01059",
 			"busStopDescription": "BUGIS STN",
 			"latitude": "1.299417",
@@ -100,7 +100,270 @@
 					"busNumber": "133"
 				}
 			]
-		}
-
+		}, 
+		{
+			"busStopNumber": "01112",
+			"busStopDescription": "OPP BUGIS JUNCTION",
+			"latitude": "1.299423",
+			"longitude": "103.855562",
+			"busServices": [
+				{
+					"busNumber": "007"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "063"
+				},
+				{
+					"busNumber": "080"
+				},
+				{
+					"busNumber": "175"
+				},
+				{
+					"busNumber": "197"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01113",
+			"busStopDescription": "BUGIS STN",
+			"latitude": "1.299423",
+			"longitude": "103.855562",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "032"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "051"
+				},
+				{
+					"busNumber": "130"
+				},
+				{
+					"busNumber": "133"
+				},
+				{
+					"busNumber": "145"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01119",
+			"busStopDescription": "BUGIS JUNCTION",
+			"latitude": "1.299364",
+			"longitude": "103.855525",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "130"
+				},
+				{
+					"busNumber": "133"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01121",
+			"busStopDescription": "STAMFORD PR SCH",
+			"latitude": "1.304022",
+			"longitude": "103.857082",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "007"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "032"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "051"
+				},
+				{
+					"busNumber": "063"
+				},
+				{
+					"busNumber": "080"
+				},
+				{
+					"busNumber": "130"
+				},
+				{
+					"busNumber": "133"
+				}, 
+				{
+					"busNumber": "145"
+				},
+				{
+					"busNumber": "175"
+				},
+				{
+					"busNumber": "197"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01129",
+			"busStopDescription": "OPP STAMFORD PR SCH",
+			"latitude": "1.304326",
+			"longitude": "103.857506",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "133"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01211",
+			"busStopDescription": "OPP BLK 461",
+			"latitude": "1.305522",
+			"longitude": "103.860538",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "007"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "032"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "051"
+				},
+				{
+					"busNumber": "063"
+				},
+				{
+					"busNumber": "080"
+				},
+				{
+					"busNumber": "107"
+				},
+				{
+					"busNumber": "107M"
+				},
+				{
+					"busNumber": "133"
+				}, 
+				{
+					"busNumber": "145"
+				},
+				{
+					"busNumber": "175"
+				},
+				{
+					"busNumber": "197"
+				}
+			]
+		},
+		{
+			"busStopNumber": "01219",
+			"busStopDescription": "BLK 461",
+			"latitude": "1.305270",
+			"longitude": "103.860739",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "107"
+				},
+				{
+					"busNumber": "107M"
+				},
+				{
+					"busNumber": "133"
+				}
+			]
+		},
+		{
+			"busStopNumber": "04151",
+			"busStopDescription": "CATH OF THE GOOD SHEPHERD",
+			"latitude": "1.295339",
+			"longitude": "103.851143",
+			"busServices": [
+				{
+					"busNumber": "130"
+				},
+				{
+					"busNumber": "133"
+				},
+				{
+					"busNumber": "145"
+				},
+				{
+					"busNumber": "197"
+				}
+			]
+		},
+		{
+			"busStopNumber": "04159",
+			"busStopDescription": "AFT CHIJMES",
+			"latitude": "1.295339",
+			"longitude": "103.851143",
+			"busServices": [
+				{
+					"busNumber": "002"
+				},
+				{
+					"busNumber": "012"
+				},
+				{
+					"busNumber": "033"
+				},
+				{
+					"busNumber": "147"
+				},
+				{
+					"busNumber": "147A"
+				}
+			]
+		}	
 	] 
 }
