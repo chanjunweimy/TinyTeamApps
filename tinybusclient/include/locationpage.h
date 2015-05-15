@@ -1,0 +1,5 @@
+#ifndef LOCATIONPAGE
+#define LOCATIONPAGE
+
+#endif // LOCATIONPAGE
+

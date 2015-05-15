@@ -14,10 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
            $$_PRO_FILE_PWD_/src/mainwindow.cpp \
-           $$_PRO_FILE_PWD_/src/informbus.cpp
+           $$_PRO_FILE_PWD_/src/busbookingpage.cpp \
+    src/locationpage.cpp \
+    src/buschoicepage.cpp
 
 HEADERS  += $$_PRO_FILE_PWD_/include/mainwindow.h \
-            $$_PRO_FILE_PWD_/include/informbus.h
+            $$_PRO_FILE_PWD_/include/busbookingpage.h \
+    include/locationpage.h \
+    include/buschoicepage.h
 
 FORMS    +=
 
