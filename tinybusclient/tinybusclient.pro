@@ -12,22 +12,24 @@ TARGET = tinybusclient
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-           $$_PRO_FILE_PWD_/src/mainwindow.cpp \
-           $$_PRO_FILE_PWD_/src/busbookingpage.cpp \
-    src/locationpage.cpp \
-    src/buschoicepage.cpp \
-    src/busstopsjsonreader.cpp \
-    src/busservicepage.cpp \
-    src/busrequestpage.cpp
+SOURCES +=  main.cpp\
+            src/mainwindow.cpp \
+            src/busbookingpage.cpp \
+            src/locationpage.cpp \
+            src/buschoicepage.cpp \
+            src/busstopsjsonreader.cpp \
+            src/busservicepage.cpp \
+            src/busstopobject.cpp \
+            src/busrequestpage.cpp
 
-HEADERS  += $$_PRO_FILE_PWD_/include/mainwindow.h \
-            $$_PRO_FILE_PWD_/include/busbookingpage.h \
-    include/locationpage.h \
-    include/buschoicepage.h \
-    include/busstopsjsonreader.h \
-    include/busservicepage.h \
-    include/busrequestpage.h
+HEADERS  += include/mainwindow.h \
+            include/busbookingpage.h \
+            include/locationpage.h \
+            include/buschoicepage.h \
+            include/busstopsjsonreader.h \
+            include/busstopobject.h \
+            include/busservicepage.h \
+            include/busrequestpage.h
 
 FORMS    +=
 
