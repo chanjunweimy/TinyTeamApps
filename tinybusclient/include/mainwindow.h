@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 
 #include "busservicepage.h"
+#include "busrequestpage.h"
 #include "busbookingpage.h"
 #include "indexpage.h"
 
@@ -24,13 +25,15 @@ public:
 
 private:
     IndexPage* _indexPage;
-    BusServicePage* _driverPage;
+    BusServicePage* _driverBusServicePage;
+    BusRequestPage* _driverBusRequestPage;
     BusBookingPage* _customerPage;
     QVBoxLayout* _windowLayout;
     QWidget* _windowWidget;
 
 private slots:
     void handleLoginSuccess(QString role);
+    void showBusRequestPage(QString busServiceNumber);
 };
 
 #endif // MAINWINDOW_H

@@ -9,6 +9,9 @@
 #include <QString>
 #include <QStringList>
 #include <QCompleter>
+#include <QPalette>
+#include "jsonreader.h"
+#include "busstopobject.h"
 
 namespace Gui {
     class BusServicePage;
@@ -17,15 +20,18 @@ namespace Gui {
 class BusServicePage : public QWidget {
     Q_OBJECT
 public:
-    BusServicePage();
+    explicit BusServicePage(QWidget * parent = 0,
+                            Qt::WindowFlags f = 0);
     ~BusServicePage();
 
 private:
     void setUpInputBox();
     void setUpSubmitButton();
+    void setBackgroundColor();
+    void setButtonStyleSheet(QPushButton *button);
 
 signals:
-    void selectedBus(QString busServiceNumber);
+    void busSelected(QString busServiceNumber);
 
 private slots:
     void buttonClicked();

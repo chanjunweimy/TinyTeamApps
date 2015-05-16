@@ -28,8 +28,8 @@ private:
     ~JsonReader();
 
 public:
-    JsonReader* getObject();
-    void deleteObject();
+    static JsonReader* getObject();
+    static void deleteObject();
 
 public:
     bool loadBusStopsJson();
