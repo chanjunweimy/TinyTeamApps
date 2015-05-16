@@ -46,12 +46,19 @@ void BusRequestPage::buttonClicked() {
 }
 
 void BusRequestPage::setUpTableWidget() {
-    QTableWidget *requestTable = new QTableWidget(2, TABLE_COLUMN_NUMBER);
+    QTableWidget *requestTable = new QTableWidget(0, TABLE_COLUMN_NUMBER);
 
     QStringList tableHeader;
-    tableHeader << "Bus Stop" << "Number of Requests" << "On Board";
+    tableHeader << "Bus\nStop" << "Number of\nRequests" << "On\nBoard";
     requestTable->setHorizontalHeaderLabels(tableHeader);
     _widgetLayout->addWidget(requestTable);
+
+    requestTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    requestTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    QFont horizontalHeaderFont = requestTable->horizontalHeader()->font();
+    horizontalHeaderFont.setBold(true);
+    requestTable->horizontalHeader()->setFont(horizontalHeaderFont);
 
     QIcon tickIcon = QIcon (TICK_ICON_FILE);
     QString tickLabel = QString("YES");
@@ -61,7 +68,7 @@ void BusRequestPage::setUpTableWidget() {
 void BusRequestPage::setButtonStyleSheet(QPushButton *button) {
     button->setStyleSheet("background-color: rgb(159, 33, 33);"
                           "border-radius: 7px;"
-                          "font: 20px;"
+                          "font: 60px;"
                           "color: white;"
                           "padding: 6px;"
                           "margin: 6px;");

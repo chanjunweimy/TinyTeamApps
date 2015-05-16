@@ -11,6 +11,7 @@
 #include <QTableWidgetItem>
 #include <QStringList>
 #include <QIcon>
+#include <QHeaderView>
 
 namespace Gui {
     class BusRequestPage;

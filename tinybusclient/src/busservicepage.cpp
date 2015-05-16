@@ -25,7 +25,7 @@ void BusServicePage::setBackgroundColor() {
 
 void BusServicePage::setUpInputBox() {
     QWidget *dummyWidget = new QWidget();
-    _widgetLayout->addWidget(dummyWidget, 10);
+    _widgetLayout->addWidget(dummyWidget, 1);
 
     QLabel *inputBoxLabel = new QLabel(INPUT_BOX_LABEL);
     QPalette palette = inputBoxLabel->palette();
@@ -33,11 +33,13 @@ void BusServicePage::setUpInputBox() {
     inputBoxLabel->setPalette(palette);
     QFont labelFont = inputBoxLabel->font();
     labelFont.setBold(true);
-    labelFont.setPointSize(30);
+    labelFont.setPointSize(40);
     inputBoxLabel->setFont(labelFont);
     inputBoxLabel->setWordWrap(true);
     inputBoxLabel->setAlignment(Qt::AlignCenter);
     _widgetLayout->addWidget(inputBoxLabel);
+
+    _widgetLayout->addWidget(dummyWidget, 1);
 
 
     JsonReader *jr = JsonReader::getObject();
@@ -55,6 +57,7 @@ void BusServicePage::setUpInputBox() {
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     _inputBox->setCompleter(completer);
     _widgetLayout->addWidget(_inputBox);
+    _widgetLayout->addWidget(dummyWidget, 1);
 }
 
 void BusServicePage::setUpSubmitButton() {
@@ -77,7 +80,7 @@ void BusServicePage::buttonClicked() {
 void BusServicePage::setButtonStyleSheet(QPushButton *button) {
     button->setStyleSheet("background-color: rgb(46, 117, 182);"
                           "border-radius: 7px;"
-                          "font: 20px;"
+                          "font: 60px;"
                           "color: white;"
                           "padding: 6px;"
                           "margin: 6px;");
