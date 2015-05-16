@@ -2,29 +2,46 @@
 
 BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
-    QWidget* topTabWidget = new QWidget(this);
-    QHBoxLayout* topTabLayout = new QHBoxLayout;
-    QPushButton* locationButton = new QPushButton(topTabWidget);
-    locationButton->setText("Your Location");
-    locationButton->setSizePolicy(QSizePolicy::Expanding,
-                                  QSizePolicy::Fixed);
+    QLabel* topLabel = new QLabel(this);
+    changeWidgetColorSettings(Qt::darkGreen,
+                              Qt::white,
+                              topLabel);
 
-    QPushButton* busButton = new QPushButton(topTabWidget);
-    busButton->setText("The Bus I Want");
-    busButton->setSizePolicy(QSizePolicy::Expanding,
-                             QSizePolicy::Fixed);
+    topLabel->setSizePolicy(QSizePolicy::Expanding,
+                            QSizePolicy::Maximum);
+    topLabel->setText("Bus Stop");
+    topLabel->setAlignment(Qt::AlignCenter);
+    QFont font = topLabel->font();
+    font.setPointSize(18);
+    font.setBold(true);
+    topLabel->setFont(font);
 
-    topTabLayout->addWidget(locationButton);
-    topTabLayout->addWidget(busButton);
-    topTabWidget->setLayout(topTabLayout);
 
-    topTabWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    LocationPage *locationPage = new LocationPage(this);
 
     QVBoxLayout* widgetLayout = new QVBoxLayout;
-    widgetLayout->addWidget(topTabWidget);
+    widgetLayout->addWidget(topLabel);
+    widgetLayout->addWidget(locationPage);
+
     this->setLayout(widgetLayout);
+
+    changeWidgetColorSettings(Qt::white,
+                              Qt::white,
+                              this);
 }
 
 BusBookingPage::~BusBookingPage() {
 
+}
+
+
+//private
+void BusBookingPage::changeWidgetColorSettings(QColor background,
+                                               QColor font,
+                                               QWidget *widget) {
+    widget->setAutoFillBackground(true);
+    QPalette pallete = widget->palette();
+    pallete.setColor(widget->backgroundRole(), background);
+    pallete.setColor(widget->foregroundRole(), font);
+    widget->setPalette(pallete);
 }
