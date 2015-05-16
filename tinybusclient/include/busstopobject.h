@@ -20,6 +20,7 @@ public:
 public:
     QString getBusStopNumber();
     QString getBusStopDescription();
+    QVector <QString> getBusServices();
     double getLatitude();
     double getLongtitude();
     void setBusStopNumber(QString busStopNumber);
@@ -30,7 +31,6 @@ public:
     void addBusService(QString busService);
 
 public:
-    static QVector <QString> getBusServices();
     static QVector <QString> getParams();
     static QMap <QString, QString> getTypeForParams(QString stringType,
                                                     QString arrayType,
@@ -42,8 +42,8 @@ public:
     static const QString PARAM_BUS_STOP_NUMBER;
     static const QString PARAM_BUS_SERVICES;
     static const QString PARAM_BUS_STOP_DESCRIPTION;
-    static const double PARAM_LATITUDE;
-    static const double PARAM_LONGITUDE;
+    static const QString PARAM_LATITUDE;
+    static const QString PARAM_LONGITUDE;
 
     static const QString PARAM_BUS_NUMBER;
 

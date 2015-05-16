@@ -54,6 +54,8 @@ private:
     static const QString TYPE_DOUBLE;
     static const QString TYPE_BOOL;
     static const QString TYPE_OBJECT;
+    static const QString EXT_JSON;
+    static const QString EXT_BINARY;
 
 };
 

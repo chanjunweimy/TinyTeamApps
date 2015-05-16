@@ -1,13 +1,18 @@
 #include "busstopobject.h"
 
-double BusStopObject::OO = 0;
-QString BusStopObject::PARAM_BUS_STOP_NUMBER = "busStopNumber";
-QString BusStopObject::PARAM_BUS_SERVICES = "busServices";
-QString BusStopObject::PARAM_BUS_STOP_DESCRIPTION = "busStopDescription";
-double BusStopObject::PARAM_LATITUDE = "latitude";
-double BusStopObject::PARAM_LONGITUDE = "longitude";
+const double BusStopObject::OO = 0;
+const QString BusStopObject::PARAM_BUS_STOP_NUMBER = "busStopNumber";
+const QString BusStopObject::PARAM_BUS_SERVICES = "busServices";
+const QString BusStopObject::PARAM_BUS_STOP_DESCRIPTION = "busStopDescription";
+const QString BusStopObject::PARAM_LATITUDE = "latitude";
+const QString BusStopObject::PARAM_LONGITUDE = "longitude";
 
-QString BusStopObject::PARAM_BUS_NUMBER = "busNumber";
+const QString BusStopObject::PARAM_BUS_NUMBER = "busNumber";
+
+QVector <QString> BusStopObject::_params;
+QMap <QString, QString> BusStopObject::_typeForParams;
+QVector <QString> BusStopObject::_paramForBusServiceArray;
+QMap <QString, QString> BusStopObject::_typeForBusServiceArray;
 
 BusStopObject::BusStopObject() {
     initializeClass();
@@ -122,6 +127,10 @@ void BusStopObject::setLatitude(double latitude) {
 
 void BusStopObject::setLongtitude(double longtitude) {
     _longtitude = longtitude;
+}
+
+void BusStopObject::setBusStopDescription(QString busStopDescription) {
+    _busStopDescription = busStopDescription;
 }
 
 //private
