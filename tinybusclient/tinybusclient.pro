@@ -17,17 +17,19 @@ SOURCES +=  main.cpp\
             src/busbookingpage.cpp \
             src/locationpage.cpp \
             src/buschoicepage.cpp \
-            src/busstopsjsonreader.cpp \
             src/busstopobject.cpp \
-            src/busservicepage.cpp
+            src/busservicepage.cpp \
+    src/indexpage.cpp \
+    src/jsonreader.cpp
 
 HEADERS  += include/mainwindow.h \
             include/busbookingpage.h \
             include/locationpage.h \
             include/buschoicepage.h \
-            include/busstopsjsonreader.h \
             include/busstopobject.h \
-            include/busservicepage.h
+            include/busservicepage.h \
+    include/indexpage.h \
+    include/jsonreader.h
 
 FORMS    +=
 
