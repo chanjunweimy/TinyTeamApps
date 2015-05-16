@@ -1,6 +1,7 @@
 #ifndef INDEXPAGE
 #define INDEXPAGE
 
+#include <QObject>
 #include <QWidget>
 #include <QSizePolicy>
 #include <QPixmap>
@@ -27,7 +28,7 @@ private slots:
     void handleButton();
 
 signals:
-    void loginSuccessfully();
+    void loginSuccessfully(QString role);
 
 private:
     void changeWidgetColorSettings(QColor background,
@@ -43,6 +44,10 @@ private:
 private:
     static const QString IMAGE_LOGO;
     static const int MAX_ID_LENGTH;
+
+public:
+    static const QString ROLE_DRIVER;
+    static const QString ROLE_CUSTOMER;
 };
 
 #endif // INDEXPAGE

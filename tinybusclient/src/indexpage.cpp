@@ -3,13 +3,16 @@
 const QString IndexPage::IMAGE_LOGO = ":/image/local/logo.jpg";
 const int IndexPage::MAX_ID_LENGTH = 20;
 
+const QString IndexPage::ROLE_CUSTOMER = "customer";
+const QString IndexPage::ROLE_DRIVER = "driver";
+
 IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
     QVBoxLayout* indexPageLayout = new QVBoxLayout;
 
     QLabel* appLogo = new QLabel(this);
     appLogo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    QPixmap appPixmap = QPixmap(QString::fromUtf8(IMAGE_LOGO));
+    QPixmap appPixmap = QPixmap(QString::fromUtf8(IMAGE_LOGO.toLatin1()));
     appLogo->setPixmap(appPixmap);
 
     appLogo->setFixedHeight(appLogo->pixmap()->height());
@@ -29,7 +32,7 @@ IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
                               _errorLabel);
 
     indexPageLayout->addWidget(appLogo);
-    indexPageLayout->addWidget(oneTimeIdLine);
+    indexPageLayout->addWidget(_oneTimeIdLine);
     indexPageLayout->addWidget(submitButton);
     this->setLayout(indexPageLayout);
 
@@ -68,8 +71,9 @@ void IndexPage::changeWidgetColorSettings(QColor background,
 void IndexPage::login() {
     QString id = _oneTimeIdLine->text();
     if (checkId(id)) {
+        QString role = ROLE_DRIVER;
         _errorLabel->hide();
-        emit this->loginSuccessfully();
+        emit this->loginSuccessfully(role);
         return;
     }
 
