@@ -4,6 +4,7 @@
 *.exe
 *.db
 *.orig
+*.autosave
 .DS_STORE
 build-tinybusclient-Desktop_Qt_5_3_MinGW_32bit-Debug/
 

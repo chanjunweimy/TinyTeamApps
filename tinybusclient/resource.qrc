@@ -2,4 +2,7 @@
     <qresource prefix="/file">
         <file>local/busstops.json</file>
     </qresource>
+    <qresource prefix="/image">
+        <file>local/logo.jpg</file>
+    </qresource>
 </RCC>
