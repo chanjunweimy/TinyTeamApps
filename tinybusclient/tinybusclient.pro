@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     src/locationpage.cpp \
     src/buschoicepage.cpp \
     src/busstopsjsonreader.cpp \
-    src/busservicepage.cpp
+    src/busservicepage.cpp \
+    src/busrequestpage.cpp
 
 HEADERS  += $$_PRO_FILE_PWD_/include/mainwindow.h \
             $$_PRO_FILE_PWD_/include/busbookingpage.h \
     include/locationpage.h \
     include/buschoicepage.h \
     include/busstopsjsonreader.h \
-    include/busservicepage.h
+    include/busservicepage.h \
+    include/busrequestpage.h
 
 FORMS    +=
 

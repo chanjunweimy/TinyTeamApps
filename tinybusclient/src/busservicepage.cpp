@@ -10,7 +10,8 @@ BusServicePage::BusServicePage() {
 }
 
 BusServicePage::~BusServicePage() {
-
+    delete _widgetLayout;
+    delete _inputBox;
 }
 
 void BusServicePage::setUpInputBox() {
