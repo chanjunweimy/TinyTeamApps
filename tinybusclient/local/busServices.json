@@ -1,0 +1,350 @@
+{
+	"busServices": [
+		{
+			"busNumber": "002",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01019"
+				},
+				{
+					"busStopNumber": "01059"
+				},
+				{
+					"busStopNumber": "01113"
+				},
+				{
+					"busStopNumber": "01119"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01129"
+				},
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "01219"
+				},
+				{
+					"busStopNumber": "04159"
+				}
+			]
+		},
+		{
+			"busNumber": "007",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01112"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				}
+			]
+		},
+		{
+			"busNumber": "012",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01019"
+				},
+				{
+					"busStopNumber": "01059"
+				},
+				{
+					"busStopNumber": "01112"
+				},
+				{
+					"busStopNumber": "01119"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01129"
+				},
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "01219"
+				},
+				{
+					"busStopNumber": "04159"
+				}
+			]
+		},
+		{
+			"busNumber": "032",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01113"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				}
+			]
+		}, 
+		{
+			"busNumber": "033",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01019"
+				},
+				{
+					"busStopNumber": "01059"
+				},
+				{
+					"busStopNumber": "01113"
+				},
+				{
+					"busStopNumber": "01119"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01129"
+				},
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "01219"
+				},
+				{
+					"busStopNumber": "04159"
+				}
+			]
+		},
+		{
+			"busNumber": "051",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01113"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				}
+			]
+		},
+		{
+			"busNumber": "063",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01112"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				}
+			]
+		},
+		{
+			"busNumber": "080",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01112"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				}
+			]
+		},
+		{
+			"busNumber": "107",
+			"busStops": [
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "01219"
+				}
+			]
+		},
+		{
+			"busNumber": "107M",
+			"busStops": [
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "01219"
+				}
+			]
+		},
+		{
+			"busNumber": "130",
+			"busStops": [
+				{
+					"busStopNumber": "01013"
+				},
+				{
+					"busStopNumber": "01019"
+				},
+				{
+					"busStopNumber": "01059"
+				},
+				{
+					"busStopNumber": "01113"
+				},
+				{
+					"busStopNumber": "01119"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "04151"
+				}
+			]
+		},
+		{
+			"busNumber": "133",
+			"busStops": [
+				{
+					"busStopNumber": "01013"
+				},
+				{
+					"busStopNumber": "01019"
+				},
+				{
+					"busStopNumber": "01059"
+				},
+				{
+					"busStopNumber": "01113"
+				},
+				{
+					"busStopNumber": "01119"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01129"
+				},
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "01219"
+				},
+				{
+					"busStopNumber": "04151"
+				}
+			]
+		},
+		{
+			"busNumber": "145",
+			"busStops": [
+				{
+					"busStopNumber": "01013"
+				},
+				{
+					"busStopNumber": "01113"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "04151"
+				}
+			]
+		},
+		{
+			"busNumber": "147",
+			"busStops": [
+				{
+					"busStopNumber": "04159"
+				}
+			]
+		},
+		{
+			"busNumber": "147A",
+			"busStops": [
+				{
+					"busStopNumber": "04159"
+				}
+			]
+		},
+		{
+			"busNumber": "175",
+			"busStops": [
+				{
+					"busStopNumber": "01012"
+				},
+				{
+					"busStopNumber": "01112"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				}
+			]
+		},
+		{
+			"busNumber": "197",
+			"busStops": [
+				{
+					"busStopNumber": "01013"
+				},
+				{
+					"busStopNumber": "01112"
+				},
+				{
+					"busStopNumber": "01121"
+				},
+				{
+					"busStopNumber": "01211"
+				},
+				{
+					"busStopNumber": "04151"
+				}
+			]
+		}
+	] 
+}

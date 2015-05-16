@@ -10,6 +10,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QStringList>
+#include <QIcon>
 
 namespace Gui {
     class BusRequestPage;
@@ -33,6 +34,7 @@ private:
 
 private:
     static const int TABLE_COLUMN_NUMBER;
+    static const QString TICK_ICON_FILE;
 
 };
 

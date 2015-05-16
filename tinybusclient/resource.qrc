@@ -4,5 +4,6 @@
     </qresource>
     <qresource prefix="/image">
         <file>local/logo.jpg</file>
+        <file>local/tick.png</file>
     </qresource>
 </RCC>

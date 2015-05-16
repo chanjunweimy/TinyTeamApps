@@ -1,10 +1,11 @@
 #include "busrequestpage.h"
 
 const int BusRequestPage::TABLE_COLUMN_NUMBER = 3;
+const QString BusRequestPage::TICK_ICON_FILE = ":/image/local/tick.png";
 
 BusRequestPage::BusRequestPage() {
-    setUpTableWidget();
     _widgetLayout = new QVBoxLayout();
+    setUpTableWidget();
     setLayout(_widgetLayout);
 }
 
@@ -19,6 +20,8 @@ void BusRequestPage::setUpTableWidget() {
     tableHeader << "Bus Stop" << "Number of Requests" << "On Board";
     requestTable->setHorizontalHeaderLabels(tableHeader);
 
-    //QTableWidgetItem *tableItem = new QTableWidgetItem("");
+    QIcon tickIcon = QIcon (TICK_ICON_FILE);
+    QString tickLabel = QString("YES");
+    QTableWidgetItem *tickIconItem = new QTableWidgetItem(tickIcon, tickLabel);
     delete requestTable;
 }
