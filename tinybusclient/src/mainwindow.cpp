@@ -5,16 +5,24 @@ MainWindow::MainWindow(QWidget *parent) :
     _windowWidget = new QWidget(this);
 
     _indexPage = new IndexPage(_windowWidget);
-    _driverPage = new BusServicePage;
+    _driverBusServicePage = new BusServicePage(_windowWidget);
+    _driverBusRequestPage = new BusRequestPage(_windowWidget);
     _customerPage = new BusBookingPage(_windowWidget);
 
-    _driverPage->hide();
+    _driverBusServicePage->hide();
+    _driverBusRequestPage->hide();
     _customerPage->hide();
 
     _windowLayout = new QVBoxLayout;
     _windowLayout->addWidget(_indexPage);
-    _windowLayout->addWidget(_driverPage);
+    _windowLayout->addWidget(_driverBusServicePage);
+    _windowLayout->addWidget(_driverBusRequestPage);
     _windowLayout->addWidget(_customerPage);
+
+    connect(_driverBusServicePage, SIGNAL(busSelected(QString)),
+            this, SLOT(showBusRequestPage(QString)));
+    connect(_driverBusRequestPage, SIGNAL(showBusServicePage()),
+            _driverBusServicePage, SLOT(show()));
 
     _windowWidget->setLayout(_windowLayout);
     this->setCentralWidget(_windowWidget);
@@ -25,7 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete _indexPage;
-    delete _driverPage;
+    delete _driverBusServicePage;
+    delete _driverBusRequestPage;
     delete _customerPage;
 }
 
@@ -33,10 +42,15 @@ MainWindow::~MainWindow() {
 void MainWindow::handleLoginSuccess(QString role) {
     _indexPage->hide();
     if (role == IndexPage::ROLE_DRIVER) {
-        _driverPage->show();
+        _driverBusServicePage->show();
     } else if (role == IndexPage::ROLE_CUSTOMER) {
         _customerPage->show();
     } else {
         assert (false);
     }
+}
+
+void MainWindow::showBusRequestPage(QString busServiceNumber) {
+    _driverBusRequestPage->show();
+    _driverBusRequestPage->setBusServiceNumber(busServiceNumber);
 }
