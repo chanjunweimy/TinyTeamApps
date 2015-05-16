@@ -26,6 +26,8 @@ private:
     IndexPage* _indexPage;
     BusServicePage* _driverPage;
     BusBookingPage* _customerPage;
+    QVBoxLayout* _windowLayout;
+    QWidget* _windowWidget;
 
 private slots:
     void handleLoginSuccess(QString role);

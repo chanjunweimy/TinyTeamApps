@@ -3,9 +3,9 @@
 const QString BusServicePage::INPUT_BOX_LABEL = "Bus Service Number: ";
 const QString BusServicePage::SUBMIT_BUTTON_LABEL = "Submit";
 BusServicePage::BusServicePage() {
+    _widgetLayout = new QVBoxLayout();
     setUpInputBox();
     setUpSubmitButton();
-    _widgetLayout = new QVBoxLayout();
     setLayout(_widgetLayout);
 }
 
