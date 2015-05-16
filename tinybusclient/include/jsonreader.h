@@ -1,5 +1,5 @@
-#ifndef BUSSTOPSJSONREADER
-#define BUSSTOPSJSONREADER
+#ifndef JSONREADER
+#define JSONREADER
 
 #include <cassert>
 
@@ -17,18 +17,18 @@
 #include "busstopobject.h"
 
 namespace JsonParser {
-    class BusStopsJsonReader;
+    class JsonReader;
 }
 
-class BusStopsJsonReader : public QObject {
+class JsonReader : public QObject {
     Q_OBJECT
 
 private:
-    explicit BusStopsJsonReader(QObject *parent = 0);
-    ~BusStopsJsonReader();
+    explicit JsonReader(QObject *parent = 0);
+    ~JsonReader();
 
 public:
-    BusStopsJsonReader* getObject();
+    JsonReader* getObject();
     void deleteObject();
 
 public:
@@ -45,7 +45,7 @@ private:
     QJsonObject loadJsonFile(QString filename);
 
 private:
-    static BusStopsJsonReader* _busStopsJsonReader;
+    static JsonReader* _jsonReader;
     QJsonArray _jsonArray;
 
 private:
@@ -59,5 +59,5 @@ private:
 
 };
 
-#endif // BUSSTOPSJSONREADER
+#endif // JSONREADER
 

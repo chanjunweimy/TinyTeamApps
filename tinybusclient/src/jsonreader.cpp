@@ -1,35 +1,35 @@
-#include "busstopsjsonreader.h"
+#include "jsonreader.h"
 
-BusStopsJsonReader* BusStopsJsonReader::_busStopsJsonReader = NULL;
-const QString BusStopsJsonReader::TYPE_ARRAY = "array";
-const QString BusStopsJsonReader::TYPE_BOOL = "bool";
-const QString BusStopsJsonReader::TYPE_DOUBLE = "double";
-const QString BusStopsJsonReader::TYPE_OBJECT = "object";
-const QString BusStopsJsonReader::TYPE_STRING = "string";
-const QString BusStopsJsonReader::EXT_JSON = ".json";
-const QString BusStopsJsonReader::EXT_BINARY = ".dat";
+JsonReader* JsonReader::_jsonReader = NULL;
+const QString JsonReader::TYPE_ARRAY = "array";
+const QString JsonReader::TYPE_BOOL = "bool";
+const QString JsonReader::TYPE_DOUBLE = "double";
+const QString JsonReader::TYPE_OBJECT = "object";
+const QString JsonReader::TYPE_STRING = "string";
+const QString JsonReader::EXT_JSON = ".json";
+const QString JsonReader::EXT_BINARY = ".dat";
 
-BusStopsJsonReader::BusStopsJsonReader(QObject *parent) :
+JsonReader::JsonReader(QObject *parent) :
     QObject(parent) {
 }
 
-BusStopsJsonReader::~BusStopsJsonReader() {
+JsonReader::~JsonReader() {
 }
 
-BusStopsJsonReader* BusStopsJsonReader::getObject() {
-    if (_busStopsJsonReader == NULL) {
-        _busStopsJsonReader = new BusStopsJsonReader;
+JsonReader* JsonReader::getObject() {
+    if (_jsonReader == NULL) {
+        _jsonReader = new JsonReader;
     }
-    return _busStopsJsonReader;
+    return _jsonReader;
 }
 
-void BusStopsJsonReader::deleteObject() {
-    _busStopsJsonReader->deleteLater();
-    _busStopsJsonReader = NULL;
+void JsonReader::deleteObject() {
+    _jsonReader->deleteLater();
+    _jsonReader = NULL;
 }
 
 //public methods
-bool BusStopsJsonReader::loadBusStopsJson() {
+bool JsonReader::loadBusStopsJson() {
     QJsonObject busStopsJson = loadJsonFile(":/file/local/busstops.json");
 
     if (busStopsJson.isEmpty()) {
@@ -49,7 +49,7 @@ bool BusStopsJsonReader::loadBusStopsJson() {
     return true;
 }
 
-QVector <BusStopObject> BusStopsJsonReader::getBusStopObjects() {
+QVector <BusStopObject> JsonReader::getBusStopObjects() {
     QVector <BusStopObject> busStopObjects;
 
     QVector <QString> params = BusStopObject::getParams();
@@ -116,7 +116,7 @@ QVector <BusStopObject> BusStopsJsonReader::getBusStopObjects() {
 
 }
 
-QJsonArray BusStopsJsonReader::getJsonArray() {
+QJsonArray JsonReader::getJsonArray() {
     if (_jsonArray.isEmpty()) {
         qWarning() << "BusStopsJsonReader -> getJsonArray: "
                       "jsonArray is empty.";
@@ -126,15 +126,15 @@ QJsonArray BusStopsJsonReader::getJsonArray() {
 }
 
 //private methods
-bool BusStopsJsonReader::isJsonValueExist(QJsonValue value) {
+bool JsonReader::isJsonValueExist(QJsonValue value) {
     return !value.isNull() && !value.isUndefined();
 }
 
-bool BusStopsJsonReader::isJsonValueExist(QJsonObject json, QString param) {
+bool JsonReader::isJsonValueExist(QJsonObject json, QString param) {
     return isJsonValueExist(json[param]);
 }
 
-bool BusStopsJsonReader::isJsonObjectValid(QJsonObject jsonObject,
+bool JsonReader::isJsonObjectValid(QJsonObject jsonObject,
                                            QVector<QString> params,
                                            QMap<QString, QString> typeForParams) {
 
@@ -169,7 +169,7 @@ bool BusStopsJsonReader::isJsonObjectValid(QJsonObject jsonObject,
     return true;
 }
 
-QJsonObject BusStopsJsonReader::loadJsonFile(QString filename) {
+QJsonObject JsonReader::loadJsonFile(QString filename) {
     qDebug() << "BusStopsJsonReader -> loadJsonFile : "
              << "Start loading save file.";
 
