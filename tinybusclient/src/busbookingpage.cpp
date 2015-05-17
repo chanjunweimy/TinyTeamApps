@@ -77,6 +77,7 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     header << "Nearby Bus Stops";
     _tableWidget->setHorizontalHeaderLabels(header);
 
+    _tableWidget->verticalHeader()->hide();
     _tableWidget->horizontalHeader()
             ->setSectionResizeMode(QHeaderView::Stretch);
 

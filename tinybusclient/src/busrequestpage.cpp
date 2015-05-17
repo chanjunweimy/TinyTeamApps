@@ -75,6 +75,9 @@ void BusRequestPage::setUpTableWidget() {
     horizontalHeaderFont.setBold(true);
     requestTable->horizontalHeader()->setFont(horizontalHeaderFont);
 
+    qDebug() << "BusRequestPage -> setUpTableWidget: "
+                "================================================";
+
     JsonReader *jr = JsonReader::getObject();
     jr->loadBusRequestsJson();
     QVector<BusRequestObject> busRequestObjects = jr->getBusRequestObjects();
