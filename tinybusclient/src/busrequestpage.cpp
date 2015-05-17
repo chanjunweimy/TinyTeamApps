@@ -75,19 +75,40 @@ void BusRequestPage::setUpTableWidget() {
     horizontalHeaderFont.setBold(true);
     requestTable->horizontalHeader()->setFont(horizontalHeaderFont);
 
-    int requestsSize = 1;
+    JsonReader *jr = JsonReader::getObject();
+    jr->loadBusRequestsJson();
+    QVector<BusRequestObject> busRequestObjects = jr->getBusRequestObjects();
+    int requestsSize = busRequestObjects.size();
+    for (int i = requestsSize - 1; i >= 0; i --) {
+        BusRequestObject curBusRequest = busRequestObjects.value(i);
+        QString busNumber = curBusRequest.getBusServiceNumber();
+        while (busNumber.at(0) == '0') {
+            busNumber = busNumber.mid(1);
+        }
+
+        if (busNumber != _busServiceNumber) {
+            busRequestObjects.removeAt(i);
+        }
+    }
+
+    requestsSize = busRequestObjects.size();
     for (int i = 0; i < requestsSize; i ++) {
         requestTable->insertRow(i);
+        BusRequestObject curBusRequest = busRequestObjects.value(i);
         //column 1
-        QTableWidgetItem *item = new QTableWidgetItem("12345\nbustop123 kjkg");
+        QString busStopString = curBusRequest.getBusStopNumber() + "\n" +
+                                curBusRequest.getBusStopName();
+        QTableWidgetItem *item = new QTableWidgetItem(busStopString);
         item->setTextAlignment(Qt::AlignCenter);
         item->setFlags(Qt::ItemIsEnabled);
         requestTable->setItem(i, 0, item);
+
         //column 2
-        item = new QTableWidgetItem("3");
+        item = new QTableWidgetItem(QString::number(curBusRequest.getNumberOfRequest()));
         item->setTextAlignment(Qt::AlignCenter);
         item->setFlags(Qt::ItemIsEnabled);
         requestTable->setItem(i, 1, item);
+
         //column 3
         QWidget* tickWidget = new QWidget();
         QPushButton* tickButton = new QPushButton();

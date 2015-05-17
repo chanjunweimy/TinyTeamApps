@@ -13,6 +13,9 @@
 #include <QIcon>
 #include <QHeaderView>
 #include <QScrollBar>
+#include <QDebug>
+#include "jsonreader.h"
+#include "busrequestobject.h"
 
 namespace Gui {
     class BusRequestPage;

@@ -13,8 +13,8 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
 
     //initialize
     _headerLabel = new QLabel(this);
-    changeWidgetColorSettings(Qt::darkGreen,
-                              Qt::white,
+    changeWidgetColorSettings(Qt::transparent,
+                              QColor(189, 215, 238),
                               _headerLabel);
 
     _headerLabel->setSizePolicy(QSizePolicy::Expanding,
@@ -22,7 +22,7 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     _headerLabel->setText("Bus Stop");
     _headerLabel->setAlignment(Qt::AlignCenter);
     QFont font = _headerLabel->font();
-    font.setPointSize(18);
+    font.setPointSize(40);
     font.setBold(true);
     _headerLabel->setFont(font);
 
@@ -95,8 +95,8 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
 
     this->setLayout(widgetLayout);
 
-    changeWidgetColorSettings(Qt::white,
-                              Qt::white,
+    changeWidgetColorSettings(QColor(64, 64, 64),
+                              QColor(189, 215, 238),
                               this);
 
     _errorLabel->hide();
