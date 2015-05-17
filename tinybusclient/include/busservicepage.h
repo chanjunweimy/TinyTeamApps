@@ -34,7 +34,6 @@ private:
 
 signals:
     void busSelected(QString busServiceNumber);
-    void invalidBusServiceNumber();
 
 private slots:
     void buttonClicked();
@@ -43,6 +42,7 @@ private:
     QLineEdit *_inputBox;
     QVBoxLayout *_widgetLayout;
     QStringList _busServiceList;
+    QLabel *_errorLabel;
 
 private:
     static const QString INPUT_BOX_LABEL;

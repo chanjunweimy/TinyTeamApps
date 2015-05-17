@@ -60,6 +60,7 @@ void BusServicePage::setUpInputBox() {
     inputBoxFont.setPointSize(20);
     _inputBox->setFont(inputBoxFont);
     _inputBox->setAlignment(Qt::AlignCenter);
+    _inputBox->setMaxLength(4);
 
     QCompleter *completer = new QCompleter(_busServiceList);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -76,26 +77,26 @@ void BusServicePage::setUpSubmitButton() {
 }
 
 void BusServicePage::buttonClicked() {
-    QString busServiceNumber = _inputBox->text();
+    QString busServiceNumber = _inputBox->text().trimmed();
     if (_busServiceList.contains(busServiceNumber)) {
+        _errorLabel->hide();
         this->hide();
         emit busSelected(busServiceNumber);
     } else {
-        emit invalidBusServiceNumber();
+        _errorLabel->show();
     }
 }
 
 void BusServicePage::setUpErrorLabel() {
-    QLabel *errorLabel = new QLabel("Invalid bus service number");
-    QPalette palette = errorLabel->palette();
-    palette.setColor(errorLabel->foregroundRole(), QColor(Qt::red));
-    errorLabel->setPalette(palette);
-    QFont labelFont = errorLabel->font();
+    _errorLabel = new QLabel("Invalid bus service number");
+    QPalette palette = _errorLabel->palette();
+    palette.setColor(_errorLabel->foregroundRole(), QColor(Qt::red));
+    _errorLabel->setPalette(palette);
+    QFont labelFont = _errorLabel->font();
     labelFont.setPointSize(20);
-    errorLabel->setFont(labelFont);
-    errorLabel->hide();
-    connect(this, SIGNAL(invalidBusServiceNumber()), errorLabel, SLOT(show()));
-    _widgetLayout->addWidget(errorLabel);
+    _errorLabel->setFont(labelFont);
+    _errorLabel->hide();
+    _widgetLayout->addWidget(_errorLabel);
 
     QWidget *dummyWidget = new QWidget();
     _widgetLayout->addWidget(dummyWidget, 10);
