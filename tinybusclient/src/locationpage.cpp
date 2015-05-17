@@ -20,19 +20,23 @@ LocationPage::LocationPage(QWidget *parent, Qt::WindowFlags f) :
 
     _busStopChosenLabel = new QLabel(_topWidget);
     _busStopChosenLabel->setText(MSG_NO_BUS_STOP);
+    _busStopChosenLabel->setWordWrap(true);
     changeWidgetColorSettings(Qt::white,
                               Qt::red,
                               _busStopChosenLabel);
 
     QHBoxLayout* topWidgetLayout = new QHBoxLayout;
-    topWidgetLayout->addWidget(busStopLabel);
-    topWidgetLayout->addWidget(_busStopChosenLabel);
+    topWidgetLayout->addWidget(busStopLabel, 0);
+    topWidgetLayout->addWidget(_busStopChosenLabel, 1);
 
     _topWidget->setLayout(topWidgetLayout);
 
     _tableWidget = new QTableWidget(this);
     _tableWidget->setRowCount(0);
     _tableWidget->setColumnCount(1);
+    _tableWidget->horizontalHeader()
+            ->setSectionResizeMode(QHeaderView::Stretch);
+
 
     QStringList header;
     header << "Nearby Bus Stops";
@@ -40,21 +44,28 @@ LocationPage::LocationPage(QWidget *parent, Qt::WindowFlags f) :
 
     _errorLabel = new QLabel(this);
 
+    _confirmButton = new QPushButton(this);
+    _confirmButton->setText("Confirm");
+
     QVBoxLayout *widgetLayout = new QVBoxLayout;
     widgetLayout->addWidget(_topWidget);
     widgetLayout->addWidget(_tableWidget);
     widgetLayout->addWidget(_errorLabel);
+    widgetLayout->addWidget(_confirmButton);
 
     this->setLayout(widgetLayout);
 
     _topWidget->show();
     _tableWidget->show();
     _errorLabel->hide();
+    _confirmButton->show();
 
     connect (_tableWidget, SIGNAL(cellClicked(int,int)),
              this, SLOT(handleCellClicked(int,int)));
     connect (_tableWidget, SIGNAL(cellPressed(int,int)),
              this, SLOT(handleCellClicked(int,int)));
+    connect (_confirmButton, SIGNAL(clicked()),
+             this, SLOT(handleButtonClicked()));
 
     updateBusStop();
 }
@@ -64,19 +75,22 @@ LocationPage::~LocationPage() {
     delete _tableWidget;
     delete _errorLabel;
     delete _topWidget;
+    delete _confirmButton;
 }
 
 //public
 bool LocationPage::updateBusStop() {
     if (!findNearbyBusStop()) {
-        _topWidget->hide();
-        _tableWidget->hide();
+        _topWidget->show();
+        _tableWidget->show();
         _errorLabel->show();
+        _confirmButton->show();
         return false;
     }
     _topWidget->show();
     _tableWidget->show();
     _errorLabel->hide();
+    _confirmButton->show();
     return true;
 }
 
@@ -103,6 +117,10 @@ bool LocationPage::findNearbyBusStop() {
     QVector <BusStopObject> busStopObjects = jr->getBusStopObjects();
 
     _tableWidget->clearContents();
+    if (!_objMap.isEmpty()) {
+        _objMap.clear();
+    }
+
     for (int i = 0; i < busStopObjects.size(); i++) {
         BusStopObject busStopObject = busStopObjects[i];
         double latitude2 = busStopObject.getLatitude();
@@ -126,11 +144,24 @@ bool LocationPage::findNearbyBusStop() {
             int col = _tableWidget->columnCount() - 1;
             _tableWidget->insertRow(row);
 
+            if (_busStopChosenLabel->text() == MSG_NO_BUS_STOP) {
+                _busStopChosenLabel->setText(busStopNearBy);
+            }
+
             QTableWidgetItem *newItem = new QTableWidgetItem(busStopNearBy);
+            newItem->setText(busStopNearBy);
+            newItem->setFlags(newItem->flags()
+                              &= ~Qt::ItemIsEditable);
             _tableWidget->setItem(row, col, newItem);
+
+            _objMap[busStopNearBy] = busStopObject;
+
+            qDebug() << "LocationPage -> findNearbyBusStop: ";
+            qDebug() << "row: " << row;
+            qDebug() << "col: " << col;
+            qDebug() << "text: " << newItem->text();
         }
     }
-
 
     return true;
 }
@@ -144,14 +175,6 @@ double LocationPage::calculateDistance(double latitude1,
     latitude2 = toRadiant(latitude2);
     longitude2 = toRadiant(longitude2);
 
-
-    /**
-     * dlon = lon2 - lon1
-dlat = lat2 - lat1
-a = (sin(dlat/2))^2 + cos(lat1) * cos(lat2) * (sin(dlon/2))^2
-c = 2 * atan2( sqrt(a), sqrt(1-a) )
-d = R * c (where R is the radius of the Earth)
-     */
     double dlat = latitude2 - latitude1;
     double dlon = longitude2 - longitude1;
 
@@ -193,6 +216,22 @@ bool LocationPage::calculateCurrentGpsLocation(double &latitude,
 
 //private slots
 void LocationPage::handleCellClicked(int row, int column) {
-    QTableWidgetItem* item = _tableWidget->itemAt(row, column);
+    QTableWidgetItem* item = _tableWidget->item(row, column);
+
+    if (item == NULL) {
+        return;
+    }
+
     _busStopChosenLabel->setText(item->text());
+
+    qDebug() << "LocationPage -> handleCellClicked: "
+                "row: " << row;
+    qDebug() << "column: " << column;
+    qDebug() << "text: " << item->text();
+}
+
+void LocationPage::handleButtonClicked() {
+    QString key = _busStopChosenLabel->text();
+    BusStopObject obj = _objMap[key];
+    emit this->busStopConfirmed(obj);
 }
