@@ -13,6 +13,9 @@
 #include <QPalette>
 #include <QColor>
 #include <QStringList>
+#include <QPushButton>
+#include <QHeaderView>
+#include <QMap>
 
 #include "jsonreader.h"
 #include "busstopobject.h"
@@ -46,12 +49,18 @@ private:
 
 private slots:
     void handleCellClicked(int row, int column);
+    void handleButtonClicked();
+
+signals:
+    void busStopConfirmed(BusStopObject obj);
 
 private:
     QLabel* _busStopChosenLabel;
     QTableWidget* _tableWidget;
     QWidget *_topWidget;
     QLabel* _errorLabel;
+    QPushButton* _confirmButton;
+    QMap <QString, BusStopObject> _objMap;
 
 private:
     static const int OO;
