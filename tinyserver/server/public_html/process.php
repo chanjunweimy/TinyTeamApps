@@ -9,9 +9,15 @@ if ($json_file === NULL) {
 	die;
 }
 
+$str = file_get_contents('../busRequests.json');
+$json = json_decode($str, true); // decode the JSON into an associative array
+
 if ($jfo['role'] === 'driver') {
-	
+	echo $json;
 } else if ($jfo['role'] === 'customer') {
-	
+  foreach ($json['busRequests'] as $key => $value) {
+	echo $key . '<br/>';
+	echo $value;
+  }
 }
 ?> 

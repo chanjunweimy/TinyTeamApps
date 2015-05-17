@@ -70,6 +70,11 @@ bool JsonReader::loadBusServicesJson() {
 }
 
 bool JsonReader::loadBusRequestsJson() {
+    if (!getDriverBusRequestsJsonFromServer()) {
+        qDebug() << "BusRequestsJsonReader -> loadBusRequestsJson: "
+                    "can't get bus requests from server!!";
+        return false;
+    }
     QJsonObject busRequestsJson = loadJsonFile(":/file/local/busRequests.json");
 
     if (busRequestsJson.isEmpty()) {
@@ -360,4 +365,148 @@ QJsonObject JsonReader::loadJsonFile(QString filename) {
              << "Done loading save file.";
 
     return json;
+}
+
+bool JsonReader::getDriverBusRequestsJsonFromServer() {
+    QString siteUrl = "http://cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
+    QString host = "cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
+    QString filename = ":/file/local/driverClient.json";
+
+    qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
+                "start initiating connection...";
+
+    QNetworkAccessManager* am = new QNetworkAccessManager(this);
+
+    QUrl url = QUrl::fromPercentEncoding(siteUrl.toLatin1());
+
+    qDebug() << "host is: " << host;
+    qDebug() << "url is: " << url.toString();
+
+
+    am->connectToHost(host);
+
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return false;
+    }
+
+    QByteArray data = file.readAll();
+
+    QNetworkRequest request;
+
+    request.setUrl(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader,
+                      QVariant("application/x-www-form-urlencoded"));
+
+
+    _reply = am->post(request, data);
+
+    connect (_reply, SIGNAL(encrypted()),
+             this, SLOT(showHandshakeSuccessful()));
+    connect (_reply, SIGNAL(finished()),
+             this, SLOT(handleReplyAfterSendingFile()));
+    connect (_reply, SIGNAL(error(QNetworkReply::NetworkError)),
+             this, SLOT(handleReplyError(QNetworkReply::NetworkError)));
+
+    qDebug() << data.data();
+
+    qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
+                "Done sending file to server";
+
+    return true;
+}
+
+//private slots
+void JsonReader::handleReplyAfterSendingFile() {
+    qDebug() << "JsonReader -> handleReplyAfterSendingFile : "
+             << "start handling reply...";
+
+    if (_reply->isFinished()) {
+        qDebug() << "reply is finished";
+    }
+
+    if (_reply->error()) {
+        qDebug() << "error!\n"
+                 << _reply->errorString();
+        qDebug() << "the HTTP status code : ";
+        qDebug() << _reply->attribute( QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        qDebug() << "the page returned";
+        qDebug() << _reply->readAll();
+
+        emit this->syncFailed();
+    } else {
+        int v = _reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        if (v >= 200 && v < 300) { // Success
+            qDebug() << "Connected successfully!";
+            qDebug() << _reply->header(QNetworkRequest::ContentTypeHeader).toString();
+            qDebug() << _reply->header(QNetworkRequest::LastModifiedHeader).toDateTime().toString();
+            qDebug() << _reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();
+            qDebug() << _reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            qDebug() << _reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+
+            QByteArray data = _reply->readAll();
+
+            QString fileName = "reply.json";
+            QFile file (fileName);
+            if (file.open(QFile::WriteOnly)) {
+                file.write(data);
+                qDebug() << data;
+                file.flush();
+                file.close();
+            } else {
+                qDebug() << "JsonReader -> handleReplyAfterSendingFile : "
+                            "failed to open file";
+                return;
+            }
+
+            emit this->fileIsReady(fileName);
+
+
+        } else if (v >= 300 && v < 400) { // Redirection
+            qDebug() << "Website redirected";
+            qDebug() << _reply->header(QNetworkRequest::ContentTypeHeader).toString();
+            qDebug() << _reply->header(QNetworkRequest::LastModifiedHeader).toDateTime().toString();
+            qDebug() << _reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();
+            qDebug() << _reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            qDebug() << _reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+            emit this->syncFailed();
+
+        }
+    }
+
+
+    _reply->deleteLater();
+
+    qDebug() << "JsonReader -> handleReplyAfterSendingFile : "
+                "done handling reply";
+
+}
+
+void JsonReader::handleReplyError(QNetworkReply::NetworkError error) {
+    qDebug() << "JsonReader -> handleReplyError: "
+                "start handling error";
+
+    if (error == QNetworkReply::NoError) {
+        qDebug() << "No error is detected";
+    } else if (error == QNetworkReply::UnknownNetworkError){
+        qDebug() << "Unknown Network Error detected";
+    } else if (error == QNetworkReply::UnknownServerError){
+        qDebug() << "Unknown Server Error detected";
+    } else if (error == QNetworkReply::UnknownProxyError){
+        qDebug() << "Unknown Proxy Error detected";
+    } else if (error == QNetworkReply::UnknownContentError){
+        qDebug() << "Unknown Content Error detected";
+    } else {
+        qDebug() << "Other error is detected!";
+        qDebug() << _reply->errorString();
+    }
+
+    qDebug() << "JsonReader -> handleReplyError: "
+                "done handling error";
+
+}
+
+void  JsonReader::showHandshakeSuccessful() {
+    qDebug() << "JsonReader -> showHandshakeSuccessful: "
+                "you are good. Handshake successful!";
 }

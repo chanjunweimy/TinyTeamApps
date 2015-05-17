@@ -3,6 +3,7 @@
         <file>local/busstops.json</file>
         <file>local/busServices.json</file>
         <file>local/busRequests.json</file>
+        <file>local/driverClient.json</file>
     </qresource>
     <qresource prefix="/image">
         <file>local/tick.png</file>

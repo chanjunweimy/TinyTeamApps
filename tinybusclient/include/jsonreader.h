@@ -13,6 +13,10 @@
 #include <QFile>
 #include <QByteArray>
 #include <QString>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QByteArray>
 
 #include "busstopobject.h"
 #include "busservicesobject.h"
@@ -49,10 +53,17 @@ private:
                            QVector <QString> params,
                            QMap <QString, QString> typeForParams);
     QJsonObject loadJsonFile(QString filename);
+    bool getDriverBusRequestsJsonFromServer();
+
+private slots:
+    void handleReplyAfterSendingFile();
+    void handleReplyError(QNetworkReply::NetworkError error);
+    void showHandshakeSuccessful();
 
 private:
     static JsonReader* _jsonReader;
     QJsonArray _jsonArray;
+    QNetworkReply* _reply;
 
 private:
     static const QString TYPE_STRING;

@@ -1,4 +1,4 @@
-	{
+{
 	"busRequests": [
 		{
 			"busStopNumber": "01012",
@@ -90,6 +90,7 @@
 			"busServiceNumber": "130",
 			"numberOfRequest": 0
 		},
+		{
 			"busStopNumber": "01019",
 			"busStopDescription": "BRAS BASAH CPLX",
 			"busServiceNumber": "133",

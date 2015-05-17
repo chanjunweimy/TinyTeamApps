@@ -4,6 +4,14 @@ const QString BusServicePage::INPUT_BOX_LABEL = "Bus<br>Service<br>Number";
 const QString BusServicePage::SUBMIT_BUTTON_LABEL = "Submit";
 BusServicePage::BusServicePage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
+}
+
+BusServicePage::~BusServicePage() {
+    delete _widgetLayout;
+    delete _inputBox;
+}
+
+void BusServicePage::initializeWidget() {
     _widgetLayout = new QVBoxLayout();
     initializeBusServiceList();
     setBackgroundColor();
@@ -11,11 +19,6 @@ BusServicePage::BusServicePage(QWidget *parent, Qt::WindowFlags f) :
     setUpSubmitButton();
     setUpErrorLabel();
     this->setLayout(_widgetLayout);
-}
-
-BusServicePage::~BusServicePage() {
-    delete _widgetLayout;
-    delete _inputBox;
 }
 
 void BusServicePage::initializeBusServiceList() {

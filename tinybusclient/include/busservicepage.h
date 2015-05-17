@@ -24,6 +24,9 @@ public:
                             Qt::WindowFlags f = 0);
     ~BusServicePage();
 
+public:
+    void initializeWidget();
+
 private:
     void setUpInputBox();
     void setUpSubmitButton();
