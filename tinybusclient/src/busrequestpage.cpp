@@ -84,7 +84,7 @@ void BusRequestPage::setUpTableWidget() {
     for (int i = 0; i < requestsSize; i ++) {
         requestTable->insertRow(i);
         //column 1
-        QTableWidgetItem *item = new QTableWidgetItem("12345\nbustop123");
+        QTableWidgetItem *item = new QTableWidgetItem("12345\nbustop123 kjkg");
         item->setTextAlignment(Qt::AlignCenter);
         item->setFlags(Qt::ItemIsEnabled);
         requestTable->setItem(i, 0, item);
