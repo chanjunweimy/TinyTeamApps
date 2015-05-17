@@ -27,25 +27,47 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     _headerLabel->setFont(font);
 
 
-    _topWidget = new QWidget(this);
-    _descriptiveLabel = new QLabel(_topWidget);
-    _descriptiveLabel->setText("Bus Stop: ");
+    _busStopWidget = new QWidget(this);
+    _busStopLabel = new QLabel(_busStopWidget);
+    _busStopLabel->setText("Bus Stop: ");
     changeWidgetColorSettings(Qt::white,
                               Qt::black,
-                              _descriptiveLabel);
+                              _busStopLabel);
 
-    _chosenLabel = new QLabel(_topWidget);
-    _chosenLabel->setText(MSG_NO_BUS_STOP);
-    _chosenLabel->setWordWrap(true);
+    _busStopChosenLabel = new QLabel(_busStopWidget);
+    _busStopChosenLabel->setText(MSG_NO_BUS_STOP);
+    _busStopChosenLabel->setWordWrap(true);
     changeWidgetColorSettings(Qt::white,
                               Qt::red,
-                              _chosenLabel);
+                              _busStopChosenLabel);
 
-    QHBoxLayout* topWidgetLayout = new QHBoxLayout;
-    topWidgetLayout->addWidget(_descriptiveLabel, 0);
-    topWidgetLayout->addWidget(_chosenLabel, 1);
+    QHBoxLayout* busStopLayout = new QHBoxLayout;
+    busStopLayout->addWidget(_busStopLabel, 0);
+    busStopLayout->addWidget(_busStopChosenLabel, 1);
 
-    _topWidget->setLayout(topWidgetLayout);
+    _busStopWidget->setLayout(busStopLayout);
+
+
+    _busWidget = new QWidget(this);
+    _busLabel = new QLabel(_busWidget);
+    _busLabel->setText("Bus Stop: ");
+    changeWidgetColorSettings(Qt::white,
+                              Qt::black,
+                              _busLabel);
+
+    _busChosenLabel = new QLabel(_busWidget);
+    _busChosenLabel->setText(MSG_NO_BUS);
+    _busChosenLabel->setWordWrap(true);
+    changeWidgetColorSettings(Qt::white,
+                              Qt::red,
+                              _busChosenLabel);
+
+    QHBoxLayout* busLayout = new QHBoxLayout;
+    busLayout->addWidget(_busLabel, 0);
+    busLayout->addWidget(_busChosenLabel, 1);
+
+    _busWidget->setLayout(busLayout);
+
 
     _tableWidget = new QTableWidget(this);
     _tableWidget->setRowCount(0);
@@ -65,7 +87,8 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
 
     QVBoxLayout *widgetLayout = new QVBoxLayout;
     widgetLayout->addWidget(_headerLabel);
-    widgetLayout->addWidget(_topWidget);
+    widgetLayout->addWidget(_busStopWidget);
+    widgetLayout->addWidget(_busWidget);
     widgetLayout->addWidget(_tableWidget);
     widgetLayout->addWidget(_errorLabel);
     widgetLayout->addWidget(_confirmButton);
@@ -76,48 +99,44 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
                               Qt::white,
                               this);
 
-    _topWidget->show();
-    _tableWidget->show();
     _errorLabel->hide();
-    _confirmButton->show();
+    _busWidget->hide();
 
     connect (_tableWidget, SIGNAL(cellClicked(int,int)),
              this, SLOT(handleCellClicked(int,int)));
     connect (_tableWidget, SIGNAL(cellPressed(int,int)),
              this, SLOT(handleCellClicked(int,int)));
     connect (_confirmButton, SIGNAL(clicked()),
-             this, SLOT(handleButtonClicked()));
+             this, SLOT(handleBusStopConfirmation()));
 
     updateBusStop();
 }
 
 BusBookingPage::~BusBookingPage() {
-    delete _descriptiveLabel;
-    delete _chosenLabel;
+    delete _busStopLabel;
+    delete _busStopChosenLabel;
+    delete _busLabel;
+    delete _busChosenLabel;
     delete _tableWidget;
     delete _errorLabel;
-    delete _topWidget;
+    delete _busStopWidget;
+    delete _busWidget;
     delete _confirmButton;
 }
 
 //public
 bool BusBookingPage::updateBusStop() {
     if (!findNearbyBusStop()) {
-        _topWidget->show();
-        _tableWidget->show();
         _errorLabel->show();
-        _confirmButton->show();
         return false;
     }
-    _topWidget->show();
-    _tableWidget->show();
     _errorLabel->hide();
-    _confirmButton->show();
     return true;
 }
 
 //private
 bool BusBookingPage::findNearbyBusStop() {
+
     double latitude = OO;
     double longitude = OO;
     if (!calculateCurrentGpsLocation(latitude, longitude)) {
@@ -166,8 +185,8 @@ bool BusBookingPage::findNearbyBusStop() {
             int col = _tableWidget->columnCount() - 1;
             _tableWidget->insertRow(row);
 
-            if (_chosenLabel->text() == MSG_NO_BUS_STOP) {
-                _chosenLabel->setText(busStopNearBy);
+            if (_busStopChosenLabel->text() == MSG_NO_BUS_STOP) {
+                _busStopChosenLabel->setText(busStopNearBy);
             }
 
             QTableWidgetItem *newItem = new QTableWidgetItem(busStopNearBy);
@@ -244,7 +263,11 @@ void BusBookingPage::handleCellClicked(int row, int column) {
         return;
     }
 
-    _chosenLabel->setText(item->text());
+    if (!_busWidget->isHidden()) {
+        _busChosenLabel->setText(item->text());
+    } else if (!_busStopWidget->isHidden()) {
+        _busStopChosenLabel->setText(item->text());
+    }
 
     qDebug() << "BusBookingPage -> handleCellClicked: "
                 "row: " << row;
@@ -252,14 +275,14 @@ void BusBookingPage::handleCellClicked(int row, int column) {
     qDebug() << "text: " << item->text();
 }
 
-void BusBookingPage::handleButtonClicked() {
+void BusBookingPage::handleBusStopConfirmation() {
     _headerLabel->setText("Choose Your Bus");
 
-    QString key = _chosenLabel->text();
+    QString key = _busStopChosenLabel->text();
     BusStopObject obj = _objMap[key];
 
-    _descriptiveLabel->setText("Bus: ");
-    _chosenLabel->setText(MSG_NO_BUS);
+    _busStopWidget->hide();
+    _busWidget->show();
 
     for (int i = _tableWidget->rowCount() - 1; i >= 0; i--) {
         _tableWidget->removeRow(i);
@@ -276,11 +299,10 @@ void BusBookingPage::handleButtonClicked() {
 
         QString bus = busServices[i];
 
-        if (_chosenLabel->text() == MSG_NO_BUS) {
-            _chosenLabel->setText(bus);
+        if (_busChosenLabel->text() == MSG_NO_BUS) {
+            _busChosenLabel->setText(bus);
         }
 
-        qDebug() << bus;
         QTableWidgetItem *newItem = new QTableWidgetItem(bus);
         newItem->setText(bus);
         newItem->setFlags(newItem->flags()
@@ -289,7 +311,18 @@ void BusBookingPage::handleButtonClicked() {
     }
 
     disconnect (_confirmButton, SIGNAL(clicked()),
-                this, SLOT(handleButtonClicked()));
-    //connect(_confirmButton, SIGNAL(clicked()),
-    //        this, SLOT
+                this, SLOT(handleBusStopConfirmation()));
+    connect(_confirmButton, SIGNAL(clicked()),
+            this, SLOT(handleBusConfirmation()));
+}
+
+
+void BusBookingPage::handleBusConfirmation() {
+    _busWidget->show();
+    _busStopWidget->show();
+    _tableWidget->hide();
+    _confirmButton->hide();
+
+    disconnect (_confirmButton, SIGNAL(clicked()),
+                this, SLOT(handleBusConfirmation()));
 }

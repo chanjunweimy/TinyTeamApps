@@ -49,15 +49,18 @@ private:
 
 private slots:
     void handleCellClicked(int row, int column);
-    void handleButtonClicked();
-
+    void handleBusStopConfirmation();
+    void handleBusConfirmation();
 
 private:
     QLabel* _headerLabel;
-    QLabel* _descriptiveLabel;
-    QLabel* _chosenLabel;
+    QLabel* _busLabel;
+    QLabel* _busStopLabel;
+    QLabel* _busChosenLabel;
+    QLabel* _busStopChosenLabel;
     QTableWidget* _tableWidget;
-    QWidget *_topWidget;
+    QWidget *_busWidget;
+    QWidget *_busStopWidget;
     QLabel* _errorLabel;
     QPushButton* _confirmButton;
     QMap <QString, BusStopObject> _objMap;

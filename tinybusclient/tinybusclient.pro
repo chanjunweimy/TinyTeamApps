@@ -21,7 +21,7 @@ SOURCES +=  main.cpp\
             src/jsonreader.cpp \
             src/busservicesobject.cpp \
             src/busrequestobject.cpp \
-    src/busbookingpage.cpp
+            src/busbookingpage.cpp
 
 HEADERS  += include/mainwindow.h \
             include/busstopobject.h \
@@ -31,7 +31,7 @@ HEADERS  += include/mainwindow.h \
             include/jsonreader.h \
             include/busservicesobject.h \
             include/busrequestobject.h \
-    include/busbookingpage.h
+            include/busbookingpage.h \
             include/messagehandler.h
 
 FORMS    +=
