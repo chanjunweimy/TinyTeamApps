@@ -67,14 +67,9 @@ void BusRequestPage::setUpTableWidget() {
     QStringList tableHeader;
     tableHeader << "Bus\nStop" << "Number of\nRequests" << "On\nBoard";
     requestTable->setHorizontalHeaderLabels(tableHeader);
-    requestTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     _widgetLayout->addWidget(requestTable);
 
     requestTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
-    /*QHeaderView *verticalHeader = requestTable->verticalHeader();
-    verticalHeader->sectionResizeMode(QHeaderView::Fixed);
-    verticalHeader->setDefaultSectionSize(200);*/
 
     QFont horizontalHeaderFont = requestTable->horizontalHeader()->font();
     horizontalHeaderFont.setBold(true);
