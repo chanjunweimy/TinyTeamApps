@@ -1,6 +1,8 @@
 #include "locationpage.h"
 
 const int LocationPage::OO = 1000;
+const double LocationPage::RADIUS_EARTH = 6378137;//meter
+const double LocationPage::MAX_DISTANCE = 400;//meter
 
 LocationPage::LocationPage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
@@ -55,7 +57,45 @@ LocationPage::~LocationPage() {
     delete _errorLabel;
 }
 
+//public
+bool LocationPage::findNearbyBusStop() {
+    double latitude = OO;
+    double longitude = OO;
+    if (!calculateCurrentGpsLocation(latitude, longitude)) {
+        return false;
+    }
+
+    JsonReader *jr = JsonReader::getObject();
+    QVector <BusStopObject> busStopObjects = jr->getBusStopObjects();
+
+    for (int i = 0; i < busStopObjects.size(); i++) {
+        BusStopObject busStopObject = busStopObjects[i];
+        double latitude2 = busStopObject.getLatitude();
+        double longitude2 = busStopObject.getLongitude();
+
+        double distance = calculateDistance(latitude, longitude,
+                                            latitude2, longitude2);
+    }
+}
+
 //private
+double LocationPage::calculateDistance(double latitude1,
+                                       double longitude1,
+                                       double latitude2,
+                                       double longitude2) {
+
+    /**
+     * dlon = lon2 - lon1
+dlat = lat2 - lat1
+a = (sin(dlat/2))^2 + cos(lat1) * cos(lat2) * (sin(dlon/2))^2
+c = 2 * atan2( sqrt(a), sqrt(1-a) )
+d = R * c (where R is the radius of the Earth)
+     */
+    double dlat = latitude2 - latitude1;
+    double dlon = longitude2 - longitude1;
+
+}
+
 void LocationPage::changeWidgetColorSettings(QColor background,
                                              QColor font,
                                              QWidget *widget) {

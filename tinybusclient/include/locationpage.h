@@ -12,6 +12,9 @@
 #include <QColor>
 #include <QStringList>
 
+#include "jsonreader.h"
+#include "busstopobject.h"
+
 namespace Gui {
     class LocationPage;
 }
@@ -24,12 +27,17 @@ public:
                           Qt::WindowFlags f = 0);
     ~LocationPage();
 
+public:
+    bool findNearbyBusStop();
+
 private:
     void changeWidgetColorSettings(QColor background,
                                    QColor font,
                                    QWidget* widget);
     bool calculateCurrentGpsLocation(double& latitude,
                                      double& longitude);
+    double calculateDistance(double latitude1, double longitude1,
+                             double latitude2, double longitude2);
 
 private:
     QLabel* _busStopChosenLabel;
@@ -38,6 +46,8 @@ private:
 
 private:
     static const int OO;
+    static const double RADIUS_EARTH;
+    static const double MAX_DISTANCE;
 };
 
 #endif // LOCATIONPAGE
