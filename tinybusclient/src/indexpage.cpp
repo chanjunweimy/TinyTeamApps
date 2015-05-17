@@ -106,7 +106,7 @@ void IndexPage::changeWidgetColorSettings(QColor background,
 void IndexPage::login() {
     QString id = _oneTimeIdLine->text();
     if (checkId(id)) {
-        QString role = ROLE_DRIVER;
+        QString role = ROLE_CUSTOMER;
         _errorLabel->hide();
         emit this->loginSuccessfully(role);
         return;

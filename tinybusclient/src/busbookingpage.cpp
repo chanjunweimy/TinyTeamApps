@@ -19,26 +19,36 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
 
     _headerLabel->setSizePolicy(QSizePolicy::Expanding,
                             QSizePolicy::Maximum);
-    _headerLabel->setText("Bus Stop");
+    _headerLabel->setText("Select Bus Stop");
     _headerLabel->setAlignment(Qt::AlignCenter);
+    _headerLabel->setWordWrap(true);
     QFont font = _headerLabel->font();
     font.setPointSize(40);
     font.setBold(true);
     _headerLabel->setFont(font);
 
-
     _busStopWidget = new QWidget(this);
+    _busStopWidget->setMinimumHeight(300);
+    _busStopWidget->setMaximumHeight(300);
     _busStopLabel = new QLabel(_busStopWidget);
-    _busStopLabel->setText("Bus Stop: ");
-    changeWidgetColorSettings(Qt::white,
-                              Qt::black,
+    _busStopLabel->setText("Selected: ");
+    _busStopLabel->setWordWrap(true);
+    QFont labelFont = _busStopLabel->font();
+    labelFont.setBold(true);
+    labelFont.setPointSize(25);
+    _busStopLabel->setFont(labelFont);
+    changeWidgetColorSettings(QColor(89, 89, 89),
+                              Qt::white,
                               _busStopLabel);
 
     _busStopChosenLabel = new QLabel(_busStopWidget);
     _busStopChosenLabel->setText(MSG_NO_BUS_STOP);
     _busStopChosenLabel->setWordWrap(true);
-    changeWidgetColorSettings(Qt::white,
-                              Qt::red,
+    labelFont = _busStopChosenLabel->font();
+    labelFont.setPointSize(25);
+    _busStopChosenLabel->setFont(labelFont);
+    changeWidgetColorSettings(QColor(89, 89, 89),
+                              Qt::white,
                               _busStopChosenLabel);
 
     QHBoxLayout* busStopLayout = new QHBoxLayout;
@@ -49,17 +59,27 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
 
 
     _busWidget = new QWidget(this);
+    _busWidget->setMinimumHeight(200);
+    _busWidget->setMaximumHeight(200);
     _busLabel = new QLabel(_busWidget);
-    _busLabel->setText("Bus Stop: ");
-    changeWidgetColorSettings(Qt::white,
-                              Qt::black,
+    _busLabel->setText("Selected: ");
+    _busLabel->setWordWrap(true);
+    labelFont = _busLabel->font();
+    labelFont.setBold(true);
+    labelFont.setPointSize(25);
+    _busLabel->setFont(labelFont);
+    changeWidgetColorSettings(QColor(89, 89, 89),
+                              Qt::white,
                               _busLabel);
 
     _busChosenLabel = new QLabel(_busWidget);
     _busChosenLabel->setText(MSG_NO_BUS);
     _busChosenLabel->setWordWrap(true);
-    changeWidgetColorSettings(Qt::white,
-                              Qt::red,
+    labelFont = _busChosenLabel->font();
+    labelFont.setPointSize(25);
+    _busChosenLabel->setFont(labelFont);
+    changeWidgetColorSettings(QColor(89, 89, 89),
+                              Qt::white,
                               _busChosenLabel);
 
     QHBoxLayout* busLayout = new QHBoxLayout;
@@ -80,11 +100,15 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     _tableWidget->verticalHeader()->hide();
     _tableWidget->horizontalHeader()
             ->setSectionResizeMode(QHeaderView::Stretch);
+    _tableWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     _errorLabel = new QLabel(this);
 
     _confirmButton = new QPushButton(this);
     _confirmButton->setText("Confirm");
+    setButtonStyleSheet(_confirmButton);
+
+    QWidget *dummyWidget = new QWidget();
 
     QVBoxLayout *widgetLayout = new QVBoxLayout;
     widgetLayout->addWidget(_headerLabel);
@@ -93,6 +117,7 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     widgetLayout->addWidget(_tableWidget);
     widgetLayout->addWidget(_errorLabel);
     widgetLayout->addWidget(_confirmButton);
+    widgetLayout->addWidget(dummyWidget, 5);
 
     this->setLayout(widgetLayout);
 
@@ -205,6 +230,13 @@ bool BusBookingPage::findNearbyBusStop() {
         }
     }
 
+    int sumOfRowHeight = _tableWidget->horizontalHeader()->height();
+    for (int i = 0; i < _tableWidget->rowCount(); i ++) {
+        sumOfRowHeight += _tableWidget->rowHeight(i);
+    }
+    _tableWidget->setMinimumHeight(sumOfRowHeight);
+    _tableWidget->setMaximumHeight(sumOfRowHeight);
+
     return true;
 }
 
@@ -311,6 +343,13 @@ void BusBookingPage::handleBusStopConfirmation() {
         _tableWidget->setItem(row, col, newItem);
     }
 
+    int sumOfRowHeight = _tableWidget->horizontalHeader()->height();
+    for (int i = 0; i < _tableWidget->rowCount(); i ++) {
+        sumOfRowHeight += _tableWidget->rowHeight(i);
+    }
+    _tableWidget->setMinimumHeight(sumOfRowHeight);
+    _tableWidget->setMaximumHeight(sumOfRowHeight);
+
     disconnect (_confirmButton, SIGNAL(clicked()),
                 this, SLOT(handleBusStopConfirmation()));
     connect(_confirmButton, SIGNAL(clicked()),
@@ -324,6 +363,20 @@ void BusBookingPage::handleBusConfirmation() {
     _tableWidget->hide();
     _confirmButton->hide();
 
+    _busStopLabel->setText("BUS STOP:");
+    _busLabel->setText("  BUS NO:");
+    _headerLabel->setText("Requested\nSucessfully");
+
     disconnect (_confirmButton, SIGNAL(clicked()),
                 this, SLOT(handleBusConfirmation()));
+}
+
+void BusBookingPage::setButtonStyleSheet(QPushButton *button) {
+    button->setStyleSheet("background-color: rgb(46, 117, 182);"
+                          "border-radius: 7px;"
+                          "font: 60px;"
+                          "color: white;"
+                          "padding: 6px;"
+                          "margin: 6px;");
+    button->setCursor(Qt::PointingHandCursor);
 }
