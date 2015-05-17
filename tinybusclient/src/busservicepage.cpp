@@ -61,6 +61,7 @@ void BusServicePage::setUpInputBox() {
     _inputBox->setFont(inputBoxFont);
     _inputBox->setAlignment(Qt::AlignCenter);
     _inputBox->setMaxLength(4);
+    _inputBox->setPlaceholderText("Please input bus service number");
 
     QCompleter *completer = new QCompleter(_busServiceList);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
