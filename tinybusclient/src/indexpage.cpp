@@ -14,6 +14,18 @@ IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
                               this);
 
     QVBoxLayout* indexPageLayout = new QVBoxLayout;
+
+    QLabel* appName = new QLabel(this);
+    appName->setText("Tiny Bus");
+    QPalette palette;
+    palette.setColor(appName->foregroundRole(), QColor(189, 215, 238));
+    appName->setPalette(palette);
+    QFont labelFont = appName->font();
+    labelFont.setBold(true);
+    labelFont.setPointSize(60);
+    appName->setAlignment(Qt::AlignCenter);
+    appName->setFont(labelFont);
+
     QLabel* appLogo = new QLabel(this);
     appLogo->setAlignment(Qt::AlignCenter);
     QPixmap appPixmap = QPixmap(QString::fromUtf8(IMAGE_LOGO.toLatin1()));
@@ -24,10 +36,9 @@ IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
     QLabel* inputBoxLabel = new QLabel(this);
     inputBoxLabel->setText("User ID:");
     inputBoxLabel->setMaximumHeight(inputBoxLabel->sizeHint().height());
-    QPalette palette;
     palette.setColor(inputBoxLabel->foregroundRole(), QColor(189, 215, 238));
     inputBoxLabel->setPalette(palette);
-    QFont labelFont = inputBoxLabel->font();
+    labelFont = inputBoxLabel->font();
     labelFont.setBold(true);
     labelFont.setPointSize(20);
     inputBoxLabel->setFont(labelFont);
@@ -51,7 +62,7 @@ IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
 
     QWidget *dummyWidget = new QWidget();
 
-    indexPageLayout->addWidget(dummyWidget, 5);
+    indexPageLayout->addWidget(appName);
     indexPageLayout->addWidget(appLogo, Qt::AlignHCenter);
     indexPageLayout->addWidget(inputBoxLabel);
     indexPageLayout->addWidget(_oneTimeIdLine);
