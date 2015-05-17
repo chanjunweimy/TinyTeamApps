@@ -51,6 +51,6 @@ void MainWindow::handleLoginSuccess(QString role) {
 }
 
 void MainWindow::showBusRequestPage(QString busServiceNumber) {
-    _driverBusRequestPage->show();
     _driverBusRequestPage->setBusServiceNumber(busServiceNumber);
+    _driverBusRequestPage->show();
 }
