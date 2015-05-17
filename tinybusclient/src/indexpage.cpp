@@ -31,7 +31,7 @@ IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
                               Qt::red,
                               _errorLabel);
 
-    indexPageLayout->addWidget(appLogo);
+    indexPageLayout->addWidget(appLogo, Qt::AlignHCenter);
     indexPageLayout->addWidget(_oneTimeIdLine);
     indexPageLayout->addWidget(submitButton);
     this->setLayout(indexPageLayout);

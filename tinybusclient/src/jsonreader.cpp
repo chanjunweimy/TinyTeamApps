@@ -49,6 +49,26 @@ bool JsonReader::loadBusStopsJson() {
     return true;
 }
 
+bool JsonReader::loadBusServicesJson() {
+    QJsonObject busServicesJson = loadJsonFile(":/file/local/busServices.json");
+
+    if (busServicesJson.isEmpty()) {
+        qDebug() << "BusStopsJsonReader -> loadBusServicesJson: "
+                    "busServicesJson is empty!!";
+        return false;
+    }
+
+    QString param = "busServices";
+    if (!isJsonValueExist(busServicesJson, param)) {
+        qDebug() << "BusStopJsonReader -> loadBusServicesJson: "
+                    "busStopsJson doesn't have param ( "
+                 << param << " )...";
+        return false;
+    }
+    _jsonArray = busServicesJson[param].toArray();
+    return true;
+}
+
 QVector <BusStopObject> JsonReader::getBusStopObjects() {
     QVector <BusStopObject> busStopObjects;
 
@@ -113,6 +133,64 @@ QVector <BusStopObject> JsonReader::getBusStopObjects() {
         busStopObjects.append(busStopObject);
     }
     return busStopObjects;
+
+}
+
+QVector <BusServicesObject> JsonReader::getBusServicesObject() {
+    QVector <BusServicesObject> busServicesObjects;
+
+    QVector <QString> params = BusServicesObject::getParams();
+    QMap <QString, QString> typeForParams =
+            BusServicesObject::getTypeForParams(TYPE_STRING,
+                                                TYPE_ARRAY);
+    QVector <QString> paramForBusStop =
+            BusServicesObject::getBusStopParams();
+    QMap <QString, QString> typeForBusStopParam =
+            BusServicesObject::getTypeForBusStopParams(TYPE_STRING);
+
+    if (_jsonArray.isEmpty()) {
+        qWarning() << "BusStopsJsonReader -> getBusServicesObject: "
+                      "jsonArray is empty. "
+                      "busServicesObjects is therefore empty also..";
+        return busServicesObjects;
+    }
+
+    for (int i = 0; i < _jsonArray.size(); i++) {
+        if (!_jsonArray.at(i).isObject()) {
+            busServicesObjects.clear();
+            return busServicesObjects;
+        }
+        QJsonObject jsonObject = _jsonArray.at(i).toObject();
+        if (!isJsonObjectValid(jsonObject, params, typeForParams)){
+            busServicesObjects.clear();
+            return busServicesObjects;
+        }
+
+        BusServicesObject busServicesObject;
+        busServicesObject.setBusNumber(
+                    jsonObject[BusServicesObject::PARAM_BUS_NUMBER].toString());
+
+        QJsonArray busStops = jsonObject[
+                BusServicesObject::PARAM_BUS_STOPS].toArray();
+        for (int j = 0; j < busStops.size(); j++) {
+            if (!busStops.at(j).isObject()) {
+                busServicesObjects.clear();
+                return busServicesObjects;
+            }
+            QJsonObject busStop = busStops.at(j).toObject();
+            if (!isJsonObjectValid(busStop,
+                                   paramForBusStop,
+                                   typeForBusStopParam)) {
+                busServicesObjects.clear();
+                return busServicesObjects;
+            }
+
+            busServicesObject.addBusStopNumber(
+                        jsonObject[BusServicesObject::PARAM_BUS_STOP_NUMBER].toString());
+        }
+        busServicesObjects.append(busServicesObject);
+    }
+    return busServicesObjects;
 
 }
 

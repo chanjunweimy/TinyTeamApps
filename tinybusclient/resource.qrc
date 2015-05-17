@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/file">
         <file>local/busstops.json</file>
+        <file>local/busServices.json</file>
     </qresource>
     <qresource prefix="/image">
         <file>local/logo.jpg</file>
