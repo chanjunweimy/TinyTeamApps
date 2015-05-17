@@ -36,7 +36,6 @@ void BusServicePage::setUpInputBox() {
     labelFont.setBold(true);
     labelFont.setPointSize(40);
     inputBoxLabel->setFont(labelFont);
-    inputBoxLabel->setWordWrap(true);
     inputBoxLabel->setAlignment(Qt::AlignCenter);
     _widgetLayout->addWidget(inputBoxLabel);
 
@@ -44,9 +43,12 @@ void BusServicePage::setUpInputBox() {
 
 
     JsonReader *jr = JsonReader::getObject();
-    //QVector<BusStopObject> busServicesObjects = jr.getBusServicesObjects();
+    jr->loadBusServicesJson();
+    QVector<BusStopObject> busServicesObjects = jr.getBusServicesObjects();
     QStringList busServiceList;
-    busServiceList << "95" << "96";
+    for (int i = 0; i < busServicesObjects.size(); i ++) {
+        busServiceList << busServicesObjects.at(i).getBusServices();
+    }
 
     _inputBox = new QLineEdit();
     QFont inputBoxFont = _inputBox->font();
@@ -79,6 +81,13 @@ void BusServicePage::buttonClicked() {
 
 void BusServicePage::setUpErrorLabel() {
     QLabel *errorLabel = new QLabel("Invalid bus service number");
+    _widgetLayout->addWidget(errorLabel);
+    QPalette palette = errorLabel->palette();
+    palette.setColor(errorLabel->foregroundRole(), QColor(Qt::red));
+    errorLabel->setPalette(palette);
+    QFont labelFont = errorLabel->font();
+    labelFont.setPointSize(20);
+    errorLabel->setFont(labelFont);
 }
 
 void BusServicePage::setButtonStyleSheet(QPushButton *button) {
