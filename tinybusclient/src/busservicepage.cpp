@@ -5,6 +5,7 @@ const QString BusServicePage::SUBMIT_BUTTON_LABEL = "Submit";
 BusServicePage::BusServicePage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
     _widgetLayout = new QVBoxLayout();
+    initializeBusServiceList();
     setBackgroundColor();
     setUpInputBox();
     setUpSubmitButton();
@@ -15,6 +16,19 @@ BusServicePage::BusServicePage(QWidget *parent, Qt::WindowFlags f) :
 BusServicePage::~BusServicePage() {
     delete _widgetLayout;
     delete _inputBox;
+}
+
+void BusServicePage::initializeBusServiceList() {
+    JsonReader *jr = JsonReader::getObject();
+    jr->loadBusServicesJson();
+    QVector<BusServicesObject> busServicesObjects = jr->getBusServicesObject();
+    for (int i = 0; i < busServicesObjects.size(); i ++) {
+        QString busNumber = busServicesObjects.value(i).getBusNumber();
+        while (busNumber.at(0) == '0') {
+            busNumber = busNumber.mid(1);
+        }
+        _busServiceList.append(busNumber);
+    }
 }
 
 void BusServicePage::setBackgroundColor() {
@@ -36,25 +50,20 @@ void BusServicePage::setUpInputBox() {
     labelFont.setBold(true);
     labelFont.setPointSize(40);
     inputBoxLabel->setFont(labelFont);
-    inputBoxLabel->setWordWrap(true);
     inputBoxLabel->setAlignment(Qt::AlignCenter);
     _widgetLayout->addWidget(inputBoxLabel);
 
     _widgetLayout->addWidget(dummyWidget, 1);
-
-
-    JsonReader *jr = JsonReader::getObject();
-    //QVector<BusStopObject> busServicesObjects = jr.getBusServicesObjects();
-    QStringList busServiceList;
-    busServiceList << "95" << "96";
 
     _inputBox = new QLineEdit();
     QFont inputBoxFont = _inputBox->font();
     inputBoxFont.setPointSize(20);
     _inputBox->setFont(inputBoxFont);
     _inputBox->setAlignment(Qt::AlignCenter);
+    _inputBox->setMaxLength(4);
+    _inputBox->setPlaceholderText("Please input bus service number");
 
-    QCompleter *completer = new QCompleter(busServiceList);
+    QCompleter *completer = new QCompleter(_busServiceList);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
     _inputBox->setCompleter(completer);
     _widgetLayout->addWidget(_inputBox);
@@ -66,19 +75,32 @@ void BusServicePage::setUpSubmitButton() {
     setButtonStyleSheet(submitButton);
     connect(submitButton, SIGNAL(clicked()), this, SLOT(buttonClicked()));
     _widgetLayout->addWidget(submitButton);
-
-    QWidget *dummyWidget = new QWidget();
-    _widgetLayout->addWidget(dummyWidget, 10);
 }
 
 void BusServicePage::buttonClicked() {
-    this->hide();
-    QString busServiceNumber = _inputBox->text();
-    emit busSelected(busServiceNumber);
+    QString busServiceNumber = _inputBox->text().trimmed();
+    if (_busServiceList.contains(busServiceNumber)) {
+        _errorLabel->hide();
+        this->hide();
+        emit busSelected(busServiceNumber);
+    } else {
+        _errorLabel->show();
+    }
 }
 
 void BusServicePage::setUpErrorLabel() {
-    QLabel *errorLabel = new QLabel("Invalid bus service number");
+    _errorLabel = new QLabel("Invalid bus service number");
+    QPalette palette = _errorLabel->palette();
+    palette.setColor(_errorLabel->foregroundRole(), QColor(Qt::red));
+    _errorLabel->setPalette(palette);
+    QFont labelFont = _errorLabel->font();
+    labelFont.setPointSize(20);
+    _errorLabel->setFont(labelFont);
+    _errorLabel->hide();
+    _widgetLayout->addWidget(_errorLabel);
+
+    QWidget *dummyWidget = new QWidget();
+    _widgetLayout->addWidget(dummyWidget, 10);
 }
 
 void BusServicePage::setButtonStyleSheet(QPushButton *button) {

@@ -28,6 +28,7 @@ void BusRequestPage::setUpBusServiceLabel() {
     labelFont.setPointSize(40);
     _busServiceLabel->setFont(labelFont);
     _busServiceLabel->setAlignment(Qt::AlignCenter);
+    _busServiceLabel->setMaximumHeight(_busServiceLabel->sizeHint().height());
     _widgetLayout->addWidget(_busServiceLabel);
 }
 
@@ -79,24 +80,32 @@ void BusRequestPage::setUpTableWidget() {
     horizontalHeaderFont.setBold(true);
     requestTable->horizontalHeader()->setFont(horizontalHeaderFont);
 
-    QIcon tickIcon = QIcon (TICK_ICON_FILE);
-    QString tickLabel = QString("YES");
-
-    int requestsSize = 1;
+    int requestsSize = 30;
     for (int i = 0; i < requestsSize; i ++) {
         requestTable->insertRow(i);
+        //column 1
         QTableWidgetItem *item = new QTableWidgetItem("12345\nbustop123");
         item->setTextAlignment(Qt::AlignCenter);
         item->setFlags(Qt::ItemIsEnabled);
         requestTable->setItem(i, 0, item);
+        //column 2
         item = new QTableWidgetItem("3");
         item->setTextAlignment(Qt::AlignCenter);
         item->setFlags(Qt::ItemIsEnabled);
         requestTable->setItem(i, 1, item);
-        item = new QTableWidgetItem(tickIcon, tickLabel);
-        item->setTextAlignment(Qt::AlignCenter);
-        item->setFlags(Qt::ItemIsEnabled);
-        requestTable->setItem(i, 2, item);
+        //column 3
+        QWidget* tickWidget = new QWidget();
+        QPushButton* tickButton = new QPushButton();
+        QPixmap pixmap(TICK_ICON_FILE);
+        QIcon ButtonIcon(pixmap);
+        tickButton->setIcon(ButtonIcon);
+        tickButton->setIconSize(pixmap.rect().size());
+        QHBoxLayout* tickLayout = new QHBoxLayout(tickWidget);
+        tickLayout->addWidget(tickButton);
+        tickLayout->setAlignment(Qt::AlignCenter);
+        tickLayout->setContentsMargins(0, 0, 0, 0);
+        tickWidget->setLayout(tickLayout);
+        requestTable->setCellWidget(i, 2, tickWidget);
     }
 
     requestTable->setMaximumHeight(requestsSize * 200 + 150);
