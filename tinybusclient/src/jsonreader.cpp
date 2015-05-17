@@ -53,19 +53,39 @@ bool JsonReader::loadBusServicesJson() {
     QJsonObject busServicesJson = loadJsonFile(":/file/local/busServices.json");
 
     if (busServicesJson.isEmpty()) {
-        qDebug() << "BusStopsJsonReader -> loadBusServicesJson: "
+        qDebug() << "BusServicesJsonReader -> loadBusServicesJson: "
                     "busServicesJson is empty!!";
         return false;
     }
 
     QString param = "busServices";
     if (!isJsonValueExist(busServicesJson, param)) {
-        qDebug() << "BusStopJsonReader -> loadBusServicesJson: "
-                    "busStopsJson doesn't have param ( "
+        qDebug() << "BusServicesJsonReader -> loadBusServicesJson: "
+                    "busServicesJson doesn't have param ( "
                  << param << " )...";
         return false;
     }
     _jsonArray = busServicesJson[param].toArray();
+    return true;
+}
+
+bool JsonReader::loadBusRequestsJson() {
+    QJsonObject busRequestsJson = loadJsonFile(":/file/local/busRequests.json");
+
+    if (busRequestsJson.isEmpty()) {
+        qDebug() << "BusRequestsJsonReader -> loadBusRequestsJson: "
+                    "busRequestsJson is empty!!";
+        return false;
+    }
+
+    QString param = "busRequests";
+    if (!isJsonValueExist(busRequestsJson, param)) {
+        qDebug() << "BusRequestsJsonReader -> loadBusServicesJson: "
+                    "busRequestsJson doesn't have param ( "
+                 << param << " )...";
+        return false;
+    }
+    _jsonArray = busRequestsJson[param].toArray();
     return true;
 }
 
@@ -136,7 +156,7 @@ QVector <BusStopObject> JsonReader::getBusStopObjects() {
 
 }
 
-QVector <BusServicesObject> JsonReader::getBusServicesObject() {
+QVector <BusServicesObject> JsonReader::getBusServiceObjects() {
     QVector <BusServicesObject> busServicesObjects;
 
     QVector <QString> params = BusServicesObject::getParams();
@@ -192,6 +212,9 @@ QVector <BusServicesObject> JsonReader::getBusServicesObject() {
     }
     return busServicesObjects;
 
+}
+
+QVector <BusRequestObject> JsonReader::getBusRequestObjects() {
 }
 
 QJsonArray JsonReader::getJsonArray() {

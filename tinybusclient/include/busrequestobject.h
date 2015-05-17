@@ -14,12 +14,15 @@ public:
 
 public:
     QString getBusStopNumber();
+    QString getBusServiceNumber();
     int getNumberOfRequest();
     void setBusStopNumber(QString busStopNumber);
+    void setBusServiceNumber(QString busServiceNumber);
     void setNumberOfRequest(int numberOfRequest);
 
 private:
     QString _busStopNumber;
+    QString _busServiceNumber;
     int _numberOfRequest;
 };
 #endif // BUSREQUESTOBJECT_H

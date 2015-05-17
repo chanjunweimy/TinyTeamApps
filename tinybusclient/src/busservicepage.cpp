@@ -21,9 +21,9 @@ BusServicePage::~BusServicePage() {
 void BusServicePage::initializeBusServiceList() {
     JsonReader *jr = JsonReader::getObject();
     jr->loadBusServicesJson();
-    QVector<BusServicesObject> busServicesObjects = jr->getBusServicesObject();
-    for (int i = 0; i < busServicesObjects.size(); i ++) {
-        QString busNumber = busServicesObjects.value(i).getBusNumber();
+    QVector<BusServicesObject> busServiceObjects = jr->getBusServiceObjects();
+    for (int i = 0; i < busServiceObjects.size(); i ++) {
+        QString busNumber = busServiceObjects.value(i).getBusNumber();
         while (busNumber.at(0) == '0') {
             busNumber = busNumber.mid(1);
         }
@@ -62,6 +62,9 @@ void BusServicePage::setUpInputBox() {
     _inputBox->setAlignment(Qt::AlignCenter);
     _inputBox->setMaxLength(4);
     _inputBox->setPlaceholderText("Please input bus service number");
+
+    connect(_inputBox, SIGNAL(returnPressed()),
+            this, SLOT(buttonClicked()));
 
     QCompleter *completer = new QCompleter(_busServiceList);
     completer->setCaseSensitivity(Qt::CaseInsensitive);

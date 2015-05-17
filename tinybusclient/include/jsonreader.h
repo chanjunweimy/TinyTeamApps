@@ -16,6 +16,7 @@
 
 #include "busstopobject.h"
 #include "busservicesobject.h"
+#include "busrequestobject.h"
 
 namespace JsonParser {
     class JsonReader;
@@ -36,7 +37,9 @@ public:
     bool loadBusStopsJson();
     QVector <BusStopObject> getBusStopObjects();
     bool loadBusServicesJson();
-    QVector <BusServicesObject> getBusServicesObject();
+    QVector <BusServicesObject> getBusServiceObjects();
+    bool loadBusRequestsJson();
+    QVector <BusRequestObject> getBusRequestObjects();
     QJsonArray getJsonArray();
 
 private:
