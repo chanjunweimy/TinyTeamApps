@@ -11,7 +11,7 @@
 #include <QCompleter>
 #include <QPalette>
 #include "jsonreader.h"
-#include "busstopobject.h"
+#include "busservicesobject.h"
 
 namespace Gui {
     class BusServicePage;
@@ -30,9 +30,11 @@ private:
     void setBackgroundColor();
     void setButtonStyleSheet(QPushButton *button);
     void setUpErrorLabel();
+    void initializeBusServiceList();
 
 signals:
     void busSelected(QString busServiceNumber);
+    void invalidBusServiceNumber();
 
 private slots:
     void buttonClicked();
@@ -40,6 +42,7 @@ private slots:
 private:
     QLineEdit *_inputBox;
     QVBoxLayout *_widgetLayout;
+    QStringList _busServiceList;
 
 private:
     static const QString INPUT_BOX_LABEL;
