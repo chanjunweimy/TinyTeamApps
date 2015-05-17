@@ -72,15 +72,15 @@ void BusRequestPage::setUpTableWidget() {
 
     requestTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    QHeaderView *verticalHeader = requestTable->verticalHeader();
+    /*QHeaderView *verticalHeader = requestTable->verticalHeader();
     verticalHeader->sectionResizeMode(QHeaderView::Fixed);
-    verticalHeader->setDefaultSectionSize(200);
+    verticalHeader->setDefaultSectionSize(200);*/
 
     QFont horizontalHeaderFont = requestTable->horizontalHeader()->font();
     horizontalHeaderFont.setBold(true);
     requestTable->horizontalHeader()->setFont(horizontalHeaderFont);
 
-    int requestsSize = 30;
+    int requestsSize = 1;
     for (int i = 0; i < requestsSize; i ++) {
         requestTable->insertRow(i);
         //column 1
@@ -107,8 +107,7 @@ void BusRequestPage::setUpTableWidget() {
         tickWidget->setLayout(tickLayout);
         requestTable->setCellWidget(i, 2, tickWidget);
     }
-
-    requestTable->setMaximumHeight(requestsSize * 200 + 150);
+    requestTable->resizeRowsToContents();
 }
 
 void BusRequestPage::setButtonStyleSheet(QPushButton *button) {

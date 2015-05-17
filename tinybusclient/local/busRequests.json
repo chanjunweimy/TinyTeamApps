@@ -1,0 +1,34 @@
+{
+	"busRequests": [
+		{
+			"busStopNumber": "01012",
+			"busStopName": "HOTEL GRAND PACIFIC",
+			"busServiceNumber": "002",
+			"numberOfRequest": 1
+		},
+		{
+			"busStopNumber": "01113",
+			"busStopName": "BUGIS STN",
+			"busServiceNumber": "002" ,
+			"numberOfRequest": 2
+		},
+		{
+			"busStopNumber": "04159",
+			"busStopName": "AFT CHIJMES",
+			"busServiceNumber": "002" ,
+			"numberOfRequest": 1
+		},
+		{
+			"busStopNumber": "01211",
+			"busStopName": "OPP BLK 461",
+			"busServiceNumber": "107",
+			"numberOfRequest": 1
+		},
+		{
+			"busStopNumber": "01219",
+			"busStopName": "BLK 461",
+			"busServiceNumber": "107",
+			"numberOfRequest": 1
+		}
+	] 
+}
