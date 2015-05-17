@@ -36,6 +36,7 @@ private:
                                    QWidget* widget);
     void login();
     bool checkId(QString id);
+    void setButtonStyleSheet(QPushButton *button);
 
 private:
     QLabel* _errorLabel;

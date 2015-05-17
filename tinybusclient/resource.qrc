@@ -4,7 +4,7 @@
         <file>local/busServices.json</file>
     </qresource>
     <qresource prefix="/image">
-        <file>local/logo.jpg</file>
         <file>local/tick.png</file>
+        <file>local/logo.png</file>
     </qresource>
 </RCC>

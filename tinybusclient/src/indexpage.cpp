@@ -1,6 +1,6 @@
 #include "indexpage.h"
 
-const QString IndexPage::IMAGE_LOGO = ":/image/local/logo.jpg";
+const QString IndexPage::IMAGE_LOGO = ":/image/local/logo.png";
 const int IndexPage::MAX_ID_LENGTH = 20;
 
 const QString IndexPage::ROLE_CUSTOMER = "customer";
@@ -8,22 +8,40 @@ const QString IndexPage::ROLE_DRIVER = "driver";
 
 IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
-    QVBoxLayout* indexPageLayout = new QVBoxLayout;
 
+    changeWidgetColorSettings(QColor(64, 64, 64),
+                              QColor(189, 215, 238),
+                              this);
+
+    QVBoxLayout* indexPageLayout = new QVBoxLayout;
     QLabel* appLogo = new QLabel(this);
-    appLogo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    appLogo->setAlignment(Qt::AlignCenter);
     QPixmap appPixmap = QPixmap(QString::fromUtf8(IMAGE_LOGO.toLatin1()));
     appLogo->setPixmap(appPixmap);
 
     appLogo->setFixedHeight(appLogo->pixmap()->height());
-    appLogo->setFixedWidth(appLogo->pixmap()->width());
 
+    QLabel* inputBoxLabel = new QLabel(this);
+    inputBoxLabel->setText("User ID:");
+    inputBoxLabel->setMaximumHeight(inputBoxLabel->sizeHint().height());
+    QPalette palette;
+    palette.setColor(inputBoxLabel->foregroundRole(), QColor(189, 215, 238));
+    inputBoxLabel->setPalette(palette);
+    QFont labelFont = inputBoxLabel->font();
+    labelFont.setBold(true);
+    labelFont.setPointSize(20);
+    inputBoxLabel->setFont(labelFont);
 
     _oneTimeIdLine = new QLineEdit(this);
     _oneTimeIdLine->setMaxLength(MAX_ID_LENGTH);
+    QFont inputBoxFont = _oneTimeIdLine->font();
+    inputBoxFont.setPointSize(20);
+    _oneTimeIdLine->setFont(inputBoxFont);
+    _oneTimeIdLine->setPlaceholderText("Please input user ID");
 
     QPushButton* submitButton = new QPushButton(this);
     submitButton->setText("Submit");
+    setButtonStyleSheet(submitButton);
 
     _errorLabel = new QLabel(this);
     _errorLabel->hide();
@@ -31,9 +49,15 @@ IndexPage::IndexPage(QWidget *parent, Qt::WindowFlags f) :
                               Qt::red,
                               _errorLabel);
 
+    QWidget *dummyWidget = new QWidget();
+
+    indexPageLayout->addWidget(dummyWidget, 5);
     indexPageLayout->addWidget(appLogo, Qt::AlignHCenter);
+    indexPageLayout->addWidget(inputBoxLabel);
     indexPageLayout->addWidget(_oneTimeIdLine);
+    indexPageLayout->addWidget(dummyWidget, 1);
     indexPageLayout->addWidget(submitButton);
+    indexPageLayout->addWidget(dummyWidget, 5);
     this->setLayout(indexPageLayout);
 
     connect(_oneTimeIdLine, SIGNAL(returnPressed()),
@@ -86,4 +110,14 @@ bool IndexPage::checkId(QString id) {
     Q_UNUSED(id);
 
     return true;
+}
+
+void IndexPage::setButtonStyleSheet(QPushButton *button) {
+    button->setStyleSheet("background-color: rgb(46, 117, 182);"
+                          "border-radius: 7px;"
+                          "font: 60px;"
+                          "color: white;"
+                          "padding: 6px;"
+                          "margin: 6px;");
+    button->setCursor(Qt::PointingHandCursor);
 }
