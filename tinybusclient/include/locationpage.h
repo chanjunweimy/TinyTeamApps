@@ -1,6 +1,8 @@
 #ifndef LOCATIONPAGE
 #define LOCATIONPAGE
 
+#include <cmath>
+
 #include <QObject>
 #include <QWidget>
 #include <QLabel>
@@ -20,7 +22,7 @@ namespace Gui {
 }
 
 class LocationPage : public QWidget {
-    //Q_OBJECT
+    Q_OBJECT
 
 public:
     explicit LocationPage(QWidget * parent = 0,
@@ -28,9 +30,11 @@ public:
     ~LocationPage();
 
 public:
-    bool findNearbyBusStop();
+    bool updateBusStop();
 
 private:
+    bool findNearbyBusStop();
+
     void changeWidgetColorSettings(QColor background,
                                    QColor font,
                                    QWidget* widget);
@@ -38,16 +42,24 @@ private:
                                      double& longitude);
     double calculateDistance(double latitude1, double longitude1,
                              double latitude2, double longitude2);
+    double toRadiant(double degree);
+
+private slots:
+    void handleCellClicked(int row, int column);
 
 private:
     QLabel* _busStopChosenLabel;
     QTableWidget* _tableWidget;
+    QWidget *_topWidget;
     QLabel* _errorLabel;
 
 private:
     static const int OO;
     static const double RADIUS_EARTH;
+    static const double PI;
+    static const double DEGREE_180;
     static const double MAX_DISTANCE;
+    static const QString MSG_NO_BUS_STOP;
 };
 
 #endif // LOCATIONPAGE

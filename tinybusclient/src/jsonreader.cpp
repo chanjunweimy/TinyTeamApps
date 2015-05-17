@@ -230,6 +230,7 @@ bool JsonReader::isJsonObjectValid(QJsonObject jsonObject,
             return false;
         }
 
+        qDebug() << jsonObject[param].toString();
 
         if (type == TYPE_STRING && jsonObject[param].isString()) {
         } else if (type == TYPE_ARRAY && jsonObject[param].isArray()) {
