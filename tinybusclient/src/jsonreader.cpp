@@ -127,10 +127,21 @@ QVector <BusStopObject> JsonReader::getBusStopObjects() {
                 return busStopObjects;
             }
 
-            busStopObject.addBusService(jsonObject[
+            busStopObject.addBusService(bus[
                                         BusStopObject::PARAM_BUS_NUMBER].toString());
         }
         busStopObjects.append(busStopObject);
+
+        qDebug() << "JsonReader -> getBusStopObjects: "
+                    "created busStopObject: ";
+        qDebug() << "number: " << busStopObject.getBusStopNumber();
+        qDebug() << "description: " << busStopObject.getBusStopDescription();
+        qDebug() << "latitude: " << busStopObject.getLatitude();
+        qDebug() << "longitude: " << busStopObject.getLongtitude();
+        QVector <QString> buses = busStopObject.getBusServices();
+        for (int i = 0; i < buses.size(); i++) {
+            qDebug() << "bus " << i << " : " << buses[i];
+        }
     }
     return busStopObjects;
 

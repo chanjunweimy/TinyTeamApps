@@ -14,28 +14,24 @@ TEMPLATE = app
 
 SOURCES +=  main.cpp\
             src/mainwindow.cpp \
-            src/busbookingpage.cpp \
-            src/locationpage.cpp \
-            src/buschoicepage.cpp \
             src/busservicepage.cpp \
             src/busstopobject.cpp \
             src/busrequestpage.cpp \
             src/indexpage.cpp \
             src/jsonreader.cpp \
             src/busservicesobject.cpp \
-            src/busrequestobject.cpp
+            src/busrequestobject.cpp \
+    src/busbookingpage.cpp
 
 HEADERS  += include/mainwindow.h \
-            include/busbookingpage.h \
-            include/locationpage.h \
-            include/buschoicepage.h \
             include/busstopobject.h \
             include/busservicepage.h \
             include/indexpage.h \
             include/busrequestpage.h \
             include/jsonreader.h \
             include/busservicesobject.h \
-            include/busrequestobject.h
+            include/busrequestobject.h \
+    include/busbookingpage.h
             include/messagehandler.h
 
 FORMS    +=
