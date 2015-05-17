@@ -8,6 +8,7 @@ BusServicePage::BusServicePage(QWidget *parent, Qt::WindowFlags f) :
     setBackgroundColor();
     setUpInputBox();
     setUpSubmitButton();
+    setUpErrorLabel();
     this->setLayout(_widgetLayout);
 }
 
@@ -64,7 +65,6 @@ void BusServicePage::setUpSubmitButton() {
     QPushButton *submitButton = new QPushButton(SUBMIT_BUTTON_LABEL);
     setButtonStyleSheet(submitButton);
     connect(submitButton, SIGNAL(clicked()), this, SLOT(buttonClicked()));
-
     _widgetLayout->addWidget(submitButton);
 
     QWidget *dummyWidget = new QWidget();
@@ -75,6 +75,10 @@ void BusServicePage::buttonClicked() {
     this->hide();
     QString busServiceNumber = _inputBox->text();
     emit busSelected(busServiceNumber);
+}
+
+void BusServicePage::setUpErrorLabel() {
+    QLabel *errorLabel = new QLabel("Invalid bus service number");
 }
 
 void BusServicePage::setButtonStyleSheet(QPushButton *button) {

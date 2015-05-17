@@ -29,6 +29,7 @@ private:
     void setUpSubmitButton();
     void setBackgroundColor();
     void setButtonStyleSheet(QPushButton *button);
+    void setUpErrorLabel();
 
 signals:
     void busSelected(QString busServiceNumber);

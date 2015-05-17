@@ -8,6 +8,7 @@ BusRequestPage::BusRequestPage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
     _widgetLayout = new QVBoxLayout();
     setBackgroundColor();
+    setUpBusServiceLabel();
     setUpTableWidget();
     setUpEndButton();
     this->setLayout(_widgetLayout);
@@ -15,6 +16,19 @@ BusRequestPage::BusRequestPage(QWidget *parent, Qt::WindowFlags f) :
 
 BusRequestPage::~BusRequestPage() {
     delete _widgetLayout;
+}
+
+void BusRequestPage::setUpBusServiceLabel() {
+    _busServiceLabel = new QLabel(_busServiceNumber);
+    QPalette palette = _busServiceLabel->palette();
+    palette.setColor(_busServiceLabel->foregroundRole(), QColor(189, 215, 238));
+    _busServiceLabel->setPalette(palette);
+    QFont labelFont = _busServiceLabel->font();
+    labelFont.setBold(true);
+    labelFont.setPointSize(40);
+    _busServiceLabel->setFont(labelFont);
+    _busServiceLabel->setAlignment(Qt::AlignCenter);
+    _widgetLayout->addWidget(_busServiceLabel);
 }
 
 void BusRequestPage::setBackgroundColor() {
@@ -26,6 +40,7 @@ void BusRequestPage::setBackgroundColor() {
 
 void BusRequestPage::setBusServiceNumber(QString busServiceNumber) {
     _busServiceNumber = busServiceNumber;
+    _busServiceLabel->setText(_busServiceNumber);
 }
 
 void BusRequestPage::setUpEndButton() {
@@ -37,7 +52,7 @@ void BusRequestPage::setUpEndButton() {
     _widgetLayout->addWidget(endButton);
 
     QWidget *dummyWidget = new QWidget();
-    _widgetLayout->addWidget(dummyWidget, 10);
+    _widgetLayout->addWidget(dummyWidget);
 }
 
 void BusRequestPage::buttonClicked() {
@@ -51,10 +66,14 @@ void BusRequestPage::setUpTableWidget() {
     QStringList tableHeader;
     tableHeader << "Bus\nStop" << "Number of\nRequests" << "On\nBoard";
     requestTable->setHorizontalHeaderLabels(tableHeader);
+    requestTable->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     _widgetLayout->addWidget(requestTable);
 
     requestTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    requestTable->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    QHeaderView *verticalHeader = requestTable->verticalHeader();
+    verticalHeader->sectionResizeMode(QHeaderView::Fixed);
+    verticalHeader->setDefaultSectionSize(200);
 
     QFont horizontalHeaderFont = requestTable->horizontalHeader()->font();
     horizontalHeaderFont.setBold(true);
@@ -62,7 +81,25 @@ void BusRequestPage::setUpTableWidget() {
 
     QIcon tickIcon = QIcon (TICK_ICON_FILE);
     QString tickLabel = QString("YES");
-    QTableWidgetItem *tickIconItem = new QTableWidgetItem(tickIcon, tickLabel);
+
+    int requestsSize = 1;
+    for (int i = 0; i < requestsSize; i ++) {
+        requestTable->insertRow(i);
+        QTableWidgetItem *item = new QTableWidgetItem("12345\nbustop123");
+        item->setTextAlignment(Qt::AlignCenter);
+        item->setFlags(Qt::ItemIsEnabled);
+        requestTable->setItem(i, 0, item);
+        item = new QTableWidgetItem("3");
+        item->setTextAlignment(Qt::AlignCenter);
+        item->setFlags(Qt::ItemIsEnabled);
+        requestTable->setItem(i, 1, item);
+        item = new QTableWidgetItem(tickIcon, tickLabel);
+        item->setTextAlignment(Qt::AlignCenter);
+        item->setFlags(Qt::ItemIsEnabled);
+        requestTable->setItem(i, 2, item);
+    }
+
+    requestTable->setMaximumHeight(requestsSize * 200 + 150);
 }
 
 void BusRequestPage::setButtonStyleSheet(QPushButton *button) {

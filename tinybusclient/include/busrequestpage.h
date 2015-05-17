@@ -12,6 +12,7 @@
 #include <QStringList>
 #include <QIcon>
 #include <QHeaderView>
+#include <QScrollBar>
 
 namespace Gui {
     class BusRequestPage;
@@ -32,6 +33,7 @@ private:
     void setButtonStyleSheet(QPushButton *button);
     void setUpEndButton();
     void setBackgroundColor();
+    void setUpBusServiceLabel();
 
 signals:
     void showBusServicePage();
@@ -42,6 +44,7 @@ private slots:
 private:
     QVBoxLayout *_widgetLayout;
     QString _busServiceNumber;
+    QLabel *_busServiceLabel;
 
 private:
     static const int TABLE_COLUMN_NUMBER;
