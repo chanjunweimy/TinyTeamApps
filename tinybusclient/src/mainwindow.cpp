@@ -42,8 +42,10 @@ MainWindow::~MainWindow() {
 void MainWindow::handleLoginSuccess(QString role) {
     _indexPage->hide();
     if (role == IndexPage::ROLE_DRIVER) {
+        _driverBusServicePage->initializeWidget();
         _driverBusServicePage->show();
     } else if (role == IndexPage::ROLE_CUSTOMER) {
+        _customerPage->updateBusStop();
         _customerPage->show();
     } else {
         assert (false);

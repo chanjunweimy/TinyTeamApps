@@ -75,7 +75,8 @@ bool JsonReader::loadBusRequestsJson() {
                     "can't get bus requests from server!!";
         return false;
     }
-    QJsonObject busRequestsJson = loadJsonFile(":/file/local/busRequests.json");
+    //QJsonObject busRequestsJson = loadJsonFile(":/file/local/busRequests.json");
+    QJsonObject busRequestsJson = loadJsonFile("reply.json");
 
     if (busRequestsJson.isEmpty()) {
         qDebug() << "BusRequestsJsonReader -> loadBusRequestsJson: "

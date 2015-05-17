@@ -110,7 +110,7 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     connect (_confirmButton, SIGNAL(clicked()),
              this, SLOT(handleBusStopConfirmation()));
 
-    updateBusStop();
+    //updateBusStop();
 }
 
 BusBookingPage::~BusBookingPage() {
