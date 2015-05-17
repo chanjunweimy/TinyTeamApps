@@ -147,10 +147,21 @@ QVector <BusStopObject> JsonReader::getBusStopObjects() {
                 return busStopObjects;
             }
 
-            busStopObject.addBusService(jsonObject[
+            busStopObject.addBusService(bus[
                                         BusStopObject::PARAM_BUS_NUMBER].toString());
         }
         busStopObjects.append(busStopObject);
+
+        qDebug() << "JsonReader -> getBusStopObjects: "
+                    "created busStopObject: ";
+        qDebug() << "number: " << busStopObject.getBusStopNumber();
+        qDebug() << "description: " << busStopObject.getBusStopDescription();
+        qDebug() << "latitude: " << busStopObject.getLatitude();
+        qDebug() << "longitude: " << busStopObject.getLongtitude();
+        QVector <QString> buses = busStopObject.getBusServices();
+        for (int i = 0; i < buses.size(); i++) {
+            qDebug() << "bus " << i << " : " << buses[i];
+        }
     }
     return busStopObjects;
 
@@ -215,6 +226,49 @@ QVector <BusServicesObject> JsonReader::getBusServiceObjects() {
 }
 
 QVector <BusRequestObject> JsonReader::getBusRequestObjects() {
+
+    QVector <BusRequestObject> busRequestObjects;
+
+    QVector <QString> params = BusRequestObject::getParams();
+    QMap <QString, QString> typeForParams =
+            BusRequestObject::getTypeForParams(TYPE_STRING,
+                                               TYPE_DOUBLE);
+
+    if (_jsonArray.isEmpty()) {
+        qWarning() << "JsonReader -> getBusRequestObjects: "
+                      "jsonArray is empty. "
+                      "busRequestObject is therefore empty also..";
+        return busRequestObjects;
+    }
+
+    for (int i = 0; i < _jsonArray.size(); i++) {
+        if (!_jsonArray.at(i).isObject()) {
+            busRequestObjects.clear();
+            return busRequestObjects;
+        }
+        QJsonObject jsonObject = _jsonArray.at(i).toObject();
+        if (!isJsonObjectValid(jsonObject, params, typeForParams)){
+            busRequestObjects.clear();
+            return busRequestObjects;
+        }
+
+        BusRequestObject busRequestObject;
+        QString busStopNumber = jsonObject[BusRequestObject
+                ::PARAM_BUS_STOP_NUMBER].toString();
+        QString busStopName = jsonObject[BusRequestObject
+                ::PARAM_BUS_STOP_NAME].toString();
+        QString busServiceNumber = jsonObject[BusRequestObject
+                ::PARAM_BUS_SERVICE_NUMBER].toString();
+        int numberOfRequest = jsonObject[BusRequestObject
+                ::PARAM_NUMBER_OF_REQUEST].toInt();
+        busRequestObject.setBusStopNumber(busStopNumber);
+        busRequestObject.setBusStopName(busStopName);
+        busRequestObject.setBusServiceNumber(busServiceNumber);
+        busRequestObject.setNumberOfRequest(numberOfRequest);
+        busRequestObjects.append(busRequestObject);
+    }
+
+    return busRequestObjects;
 }
 
 QJsonArray JsonReader::getJsonArray() {
