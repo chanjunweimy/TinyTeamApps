@@ -39,6 +39,7 @@ private:
     void setUpEndButton();
     void setBackgroundColor();
     void setUpBusServiceLabel();
+    void resizeTable();
 
 signals:
     void showBusServicePage();

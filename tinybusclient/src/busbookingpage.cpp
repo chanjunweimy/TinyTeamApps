@@ -100,7 +100,7 @@ BusBookingPage::BusBookingPage(QWidget *parent, Qt::WindowFlags f) :
     _tableWidget->verticalHeader()->hide();
     _tableWidget->horizontalHeader()
             ->setSectionResizeMode(QHeaderView::Stretch);
-    _tableWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //_tableWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     _errorLabel = new QLabel(this);
 
@@ -216,9 +216,11 @@ bool BusBookingPage::findNearbyBusStop() {
             }
 
             QTableWidgetItem *newItem = new QTableWidgetItem(busStopNearBy);
+            QFont itemFont = newItem->font();
+            itemFont.setPointSize(23);
+            newItem->setFont(itemFont);
             newItem->setText(busStopNearBy);
-            newItem->setFlags(newItem->flags()
-                              &= ~Qt::ItemIsEditable);
+            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
             _tableWidget->setItem(row, col, newItem);
 
             _objMap[busStopNearBy] = busStopObject;
@@ -332,14 +334,20 @@ void BusBookingPage::handleBusStopConfirmation() {
 
         QString bus = busServices[i];
 
+        while (bus.at(0) == '0') {
+            bus = bus.mid(1);
+        }
+
         if (_busChosenLabel->text() == MSG_NO_BUS) {
             _busChosenLabel->setText(bus);
         }
 
         QTableWidgetItem *newItem = new QTableWidgetItem(bus);
+        QFont itemFont = newItem->font();
+        itemFont.setPointSize(23);
+        newItem->setFont(itemFont);
         newItem->setText(bus);
-        newItem->setFlags(newItem->flags()
-                          &= ~Qt::ItemIsEditable);
+        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
         _tableWidget->setItem(row, col, newItem);
     }
 
@@ -363,8 +371,8 @@ void BusBookingPage::handleBusConfirmation() {
     _tableWidget->hide();
     _confirmButton->hide();
 
-    _busStopLabel->setText("BUS STOP:");
-    _busLabel->setText("  BUS NO:");
+    _busStopLabel->setText("BUS\nSTOP:");
+    _busLabel->setText("BUS  \nNO: ");
     _headerLabel->setText("Requested\nSucessfully");
 
     disconnect (_confirmButton, SIGNAL(clicked()),

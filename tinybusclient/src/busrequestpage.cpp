@@ -85,6 +85,16 @@ void BusRequestPage::setButtonStyleSheet(QPushButton *button) {
     button->setCursor(Qt::PointingHandCursor);
 }
 
+void BusRequestPage::resizeTable()
+{
+    int sumOfRowHeight = _requestTable->horizontalHeader()->height();
+    for (int i = 0; i < _requestTable->rowCount(); i ++) {
+        sumOfRowHeight += _requestTable->rowHeight(i);
+    }
+    _requestTable->setMinimumHeight(sumOfRowHeight);
+    _requestTable->setMaximumHeight(sumOfRowHeight);
+}
+
 void BusRequestPage::addContentToTable() {
     while (_requestTable->rowCount() > 0)
     {
@@ -145,6 +155,8 @@ void BusRequestPage::addContentToTable() {
     }
     _requestTable->resizeRowsToContents();
 
+    resizeTable();
+
     connect(_tickButtonGroup, SIGNAL(buttonClicked(int)),
             this, SLOT(updateNumberOfRequest(int)));
 }
@@ -160,6 +172,7 @@ void BusRequestPage::updateNumberOfRequest(int rowNumber) {
     numberOfRequest--;
     if (numberOfRequest == 0) {
         _requestTable->setRowHidden(rowNumber, true);
+        resizeTable();
     } else {
         _numberOfRequestItems.value(rowNumber)->setText(QString::number(numberOfRequest));
     }
