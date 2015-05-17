@@ -71,7 +71,7 @@ bool LocationPage::findNearbyBusStop() {
     for (int i = 0; i < busStopObjects.size(); i++) {
         BusStopObject busStopObject = busStopObjects[i];
         double latitude2 = busStopObject.getLatitude();
-        double longitude2 = busStopObject.getLongitude();
+        double longitude2 = busStopObject.getLongtitude();
 
         double distance = calculateDistance(latitude, longitude,
                                             latitude2, longitude2);
