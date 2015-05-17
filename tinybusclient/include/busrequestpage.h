@@ -47,6 +47,7 @@ signals:
 private slots:
     void buttonClicked();
     void updateNumberOfRequest(int rowNumber);
+    void addContentAfterSyncSuccess();
 
 private:
     QVBoxLayout *_widgetLayout;

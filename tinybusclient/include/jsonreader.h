@@ -45,6 +45,11 @@ public:
     bool loadBusRequestsJson();
     QVector <BusRequestObject> getBusRequestObjects();
     QJsonArray getJsonArray();
+    bool getDriverBusRequestsJsonFromServer();
+
+signals:
+    void syncSuccess();
+    void syncFailed();
 
 private:
     bool isJsonValueExist(QJsonValue value);
@@ -53,7 +58,6 @@ private:
                            QVector <QString> params,
                            QMap <QString, QString> typeForParams);
     QJsonObject loadJsonFile(QString filename);
-    bool getDriverBusRequestsJsonFromServer();
 
 private slots:
     void handleReplyAfterSendingFile();

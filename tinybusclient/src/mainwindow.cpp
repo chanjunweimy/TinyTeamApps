@@ -19,16 +19,25 @@ MainWindow::MainWindow(QWidget *parent) :
     _windowLayout->addWidget(_driverBusRequestPage);
     _windowLayout->addWidget(_customerPage);
 
+    _timer = new QTimer(this);
+
     connect(_driverBusServicePage, SIGNAL(busSelected(QString)),
             this, SLOT(showBusRequestPage(QString)));
     connect(_driverBusRequestPage, SIGNAL(showBusServicePage()),
             _driverBusServicePage, SLOT(show()));
+    connect(_driverBusRequestPage, SIGNAL(showBusServicePage()),
+            _timer, SLOT(stop()));
+    connect(_timer, SIGNAL(timeout()),
+            this, SLOT(updateBusRequestPage()));
+
 
     _windowWidget->setLayout(_windowLayout);
     this->setCentralWidget(_windowWidget);
 
     connect (_indexPage, SIGNAL(loginSuccessfully(QString)),
              this, SLOT(handleLoginSuccess(QString)));
+
+
 }
 
 MainWindow::~MainWindow() {
@@ -44,6 +53,8 @@ void MainWindow::handleLoginSuccess(QString role) {
     if (role == IndexPage::ROLE_DRIVER) {
         _driverBusServicePage->initializeWidget();
         _driverBusServicePage->show();
+
+        _timer->start(5000);
     } else if (role == IndexPage::ROLE_CUSTOMER) {
         _customerPage->updateBusStop();
         _customerPage->show();
@@ -56,4 +67,8 @@ void MainWindow::showBusRequestPage(QString busServiceNumber) {
     _driverBusRequestPage->setBusServiceNumber(busServiceNumber);
     _driverBusRequestPage->addContentToTable();
     _driverBusRequestPage->show();
+}
+
+void MainWindow::updateBusRequestPage() {
+    _driverBusRequestPage->addContentToTable();
 }

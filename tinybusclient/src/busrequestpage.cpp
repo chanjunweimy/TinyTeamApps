@@ -96,11 +96,20 @@ void BusRequestPage::resizeTable()
 }
 
 void BusRequestPage::addContentToTable() {
-    while (_requestTable->rowCount() > 0)
-    {
+    while (_requestTable->rowCount() > 0) {
         _requestTable->removeRow(0);
     }
 
+    JsonReader *jr = JsonReader::getObject();
+    connect (jr, SIGNAL(syncSuccess()),
+             this, SLOT(addContentAfterSyncSuccess()));
+
+    jr->getDriverBusRequestsJsonFromServer();
+
+}
+
+//private slots
+void BusRequestPage::addContentAfterSyncSuccess() {
     JsonReader *jr = JsonReader::getObject();
     jr->loadBusRequestsJson();
     QVector<BusRequestObject> busRequestObjects = jr->getBusRequestObjects();
@@ -161,7 +170,6 @@ void BusRequestPage::addContentToTable() {
             this, SLOT(updateNumberOfRequest(int)));
 }
 
-//private slots
 void BusRequestPage::buttonClicked() {
     this->hide();
     emit showBusServicePage();

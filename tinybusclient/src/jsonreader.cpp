@@ -70,11 +70,6 @@ bool JsonReader::loadBusServicesJson() {
 }
 
 bool JsonReader::loadBusRequestsJson() {
-    if (!getDriverBusRequestsJsonFromServer()) {
-        qDebug() << "BusRequestsJsonReader -> loadBusRequestsJson: "
-                    "can't get bus requests from server!!";
-        return false;
-    }
     //QJsonObject busRequestsJson = loadJsonFile(":/file/local/busRequests.json");
     QJsonObject busRequestsJson = loadJsonFile("reply.json");
 
@@ -92,6 +87,55 @@ bool JsonReader::loadBusRequestsJson() {
         return false;
     }
     _jsonArray = busRequestsJson[param].toArray();
+    return true;
+}
+
+bool JsonReader::getDriverBusRequestsJsonFromServer() {
+    QString siteUrl = "http://cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
+    QString host = "cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
+    QString filename = ":/file/local/driverClient.json";
+
+    qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
+                "start initiating connection...";
+
+    QNetworkAccessManager* am = new QNetworkAccessManager(this);
+
+    QUrl url = QUrl::fromPercentEncoding(siteUrl.toLatin1());
+
+    qDebug() << "host is: " << host;
+    qDebug() << "url is: " << url.toString();
+
+
+    am->connectToHost(host);
+
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return false;
+    }
+
+    QByteArray data = file.readAll();
+
+    QNetworkRequest request;
+
+    request.setUrl(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader,
+                      QVariant("application/x-www-form-urlencoded"));
+
+
+    _reply = am->post(request, data);
+
+    connect (_reply, SIGNAL(encrypted()),
+             this, SLOT(showHandshakeSuccessful()));
+    connect (_reply, SIGNAL(finished()),
+             this, SLOT(handleReplyAfterSendingFile()));
+    connect (_reply, SIGNAL(error(QNetworkReply::NetworkError)),
+             this, SLOT(handleReplyError(QNetworkReply::NetworkError)));
+
+    qDebug() << data.data();
+
+    qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
+                "Done sending file to server";
+
     return true;
 }
 
@@ -368,54 +412,7 @@ QJsonObject JsonReader::loadJsonFile(QString filename) {
     return json;
 }
 
-bool JsonReader::getDriverBusRequestsJsonFromServer() {
-    QString siteUrl = "http://cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
-    QString host = "cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
-    QString filename = ":/file/local/driverClient.json";
 
-    qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
-                "start initiating connection...";
-
-    QNetworkAccessManager* am = new QNetworkAccessManager(this);
-
-    QUrl url = QUrl::fromPercentEncoding(siteUrl.toLatin1());
-
-    qDebug() << "host is: " << host;
-    qDebug() << "url is: " << url.toString();
-
-
-    am->connectToHost(host);
-
-    QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly)) {
-        return false;
-    }
-
-    QByteArray data = file.readAll();
-
-    QNetworkRequest request;
-
-    request.setUrl(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader,
-                      QVariant("application/x-www-form-urlencoded"));
-
-
-    _reply = am->post(request, data);
-
-    connect (_reply, SIGNAL(encrypted()),
-             this, SLOT(showHandshakeSuccessful()));
-    connect (_reply, SIGNAL(finished()),
-             this, SLOT(handleReplyAfterSendingFile()));
-    connect (_reply, SIGNAL(error(QNetworkReply::NetworkError)),
-             this, SLOT(handleReplyError(QNetworkReply::NetworkError)));
-
-    qDebug() << data.data();
-
-    qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
-                "Done sending file to server";
-
-    return true;
-}
 
 //private slots
 void JsonReader::handleReplyAfterSendingFile() {
@@ -460,7 +457,7 @@ void JsonReader::handleReplyAfterSendingFile() {
                 return;
             }
 
-            emit this->fileIsReady(fileName);
+            emit this->syncSuccess();
 
 
         } else if (v >= 300 && v < 400) { // Redirection

@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QString>
 #include <QVBoxLayout>
+#include <QTimer>
 
 #include "busservicepage.h"
 #include "busrequestpage.h"
@@ -30,10 +31,12 @@ private:
     BusBookingPage* _customerPage;
     QVBoxLayout* _windowLayout;
     QWidget* _windowWidget;
+    QTimer* _timer;
 
 private slots:
     void handleLoginSuccess(QString role);
     void showBusRequestPage(QString busServiceNumber);
+    void updateBusRequestPage();
 };
 
 #endif // MAINWINDOW_H
