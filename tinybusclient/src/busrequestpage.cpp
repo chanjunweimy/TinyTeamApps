@@ -16,6 +16,9 @@ BusRequestPage::BusRequestPage(QWidget *parent, Qt::WindowFlags f) :
 
 BusRequestPage::~BusRequestPage() {
     delete _widgetLayout;
+    delete _requestTable;
+    delete _busServiceLabel;
+    delete _tickButtonGroup;
 }
 
 void BusRequestPage::setUpBusServiceLabel() {
@@ -56,27 +59,47 @@ void BusRequestPage::setUpEndButton() {
     _widgetLayout->addWidget(dummyWidget);
 }
 
-void BusRequestPage::buttonClicked() {
-    this->hide();
-    emit showBusServicePage();
-}
-
 void BusRequestPage::setUpTableWidget() {
-    QTableWidget *requestTable = new QTableWidget(0, TABLE_COLUMN_NUMBER);
+    _requestTable = new QTableWidget(0, TABLE_COLUMN_NUMBER);
 
     QStringList tableHeader;
     tableHeader << "Bus\nStop" << "Number of\nRequests" << "On\nBoard";
-    requestTable->setHorizontalHeaderLabels(tableHeader);
-    _widgetLayout->addWidget(requestTable);
+    _requestTable->setHorizontalHeaderLabels(tableHeader);
+    _widgetLayout->addWidget(_requestTable);
 
-    requestTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    _requestTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    _requestTable->verticalHeader()->hide();
 
-    QFont horizontalHeaderFont = requestTable->horizontalHeader()->font();
+    QFont horizontalHeaderFont = _requestTable->horizontalHeader()->font();
     horizontalHeaderFont.setBold(true);
-    requestTable->horizontalHeader()->setFont(horizontalHeaderFont);
+    _requestTable->horizontalHeader()->setFont(horizontalHeaderFont);
+}
 
-    qDebug() << "BusRequestPage -> setUpTableWidget: "
-                "================================================";
+void BusRequestPage::setButtonStyleSheet(QPushButton *button) {
+    button->setStyleSheet("background-color: rgb(159, 33, 33);"
+                          "border-radius: 7px;"
+                          "font: 60px;"
+                          "color: white;"
+                          "padding: 6px;"
+                          "margin: 6px;");
+    button->setCursor(Qt::PointingHandCursor);
+}
+
+void BusRequestPage::resizeTable()
+{
+    int sumOfRowHeight = _requestTable->horizontalHeader()->height();
+    for (int i = 0; i < _requestTable->rowCount(); i ++) {
+        sumOfRowHeight += _requestTable->rowHeight(i);
+    }
+    _requestTable->setMinimumHeight(sumOfRowHeight);
+    _requestTable->setMaximumHeight(sumOfRowHeight);
+}
+
+void BusRequestPage::addContentToTable() {
+    while (_requestTable->rowCount() > 0)
+    {
+        _requestTable->removeRow(0);
+    }
 
     JsonReader *jr = JsonReader::getObject();
     jr->loadBusRequestsJson();
@@ -94,9 +117,11 @@ void BusRequestPage::setUpTableWidget() {
         }
     }
 
+    _numberOfRequestItems = QVector<QTableWidgetItem*>();
+    _tickButtonGroup = new QButtonGroup();
     requestsSize = busRequestObjects.size();
     for (int i = 0; i < requestsSize; i ++) {
-        requestTable->insertRow(i);
+        _requestTable->insertRow(i);
         BusRequestObject curBusRequest = busRequestObjects.value(i);
         //column 1
         QString busStopString = curBusRequest.getBusStopNumber() + "\n" +
@@ -104,13 +129,14 @@ void BusRequestPage::setUpTableWidget() {
         QTableWidgetItem *item = new QTableWidgetItem(busStopString);
         item->setTextAlignment(Qt::AlignCenter);
         item->setFlags(Qt::ItemIsEnabled);
-        requestTable->setItem(i, 0, item);
+        _requestTable->setItem(i, 0, item);
 
         //column 2
         item = new QTableWidgetItem(QString::number(curBusRequest.getNumberOfRequest()));
         item->setTextAlignment(Qt::AlignCenter);
         item->setFlags(Qt::ItemIsEnabled);
-        requestTable->setItem(i, 1, item);
+        _requestTable->setItem(i, 1, item);
+        _numberOfRequestItems.append(item);
 
         //column 3
         QWidget* tickWidget = new QWidget();
@@ -124,18 +150,30 @@ void BusRequestPage::setUpTableWidget() {
         tickLayout->setAlignment(Qt::AlignCenter);
         tickLayout->setContentsMargins(0, 0, 0, 0);
         tickWidget->setLayout(tickLayout);
-        requestTable->setCellWidget(i, 2, tickWidget);
+        _requestTable->setCellWidget(i, 2, tickWidget);
+        _tickButtonGroup->addButton(tickButton, i);
     }
-    requestTable->resizeRowsToContents();
+    _requestTable->resizeRowsToContents();
+
+    resizeTable();
+
+    connect(_tickButtonGroup, SIGNAL(buttonClicked(int)),
+            this, SLOT(updateNumberOfRequest(int)));
 }
 
-void BusRequestPage::setButtonStyleSheet(QPushButton *button) {
-    button->setStyleSheet("background-color: rgb(159, 33, 33);"
-                          "border-radius: 7px;"
-                          "font: 60px;"
-                          "color: white;"
-                          "padding: 6px;"
-                          "margin: 6px;");
-    button->setCursor(Qt::PointingHandCursor);
+//private slots
+void BusRequestPage::buttonClicked() {
+    this->hide();
+    emit showBusServicePage();
 }
 
+void BusRequestPage::updateNumberOfRequest(int rowNumber) {
+    int numberOfRequest = _numberOfRequestItems.value(rowNumber)->text().toInt();
+    numberOfRequest--;
+    if (numberOfRequest == 0) {
+        _requestTable->setRowHidden(rowNumber, true);
+        resizeTable();
+    } else {
+        _numberOfRequestItems.value(rowNumber)->setText(QString::number(numberOfRequest));
+    }
+}

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QButtonGroup>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QString>
@@ -30,6 +31,7 @@ public:
 
 public:
     void setBusServiceNumber(QString busServiceNumber);
+    void addContentToTable();
 
 private:
     void setUpTableWidget();
@@ -37,17 +39,22 @@ private:
     void setUpEndButton();
     void setBackgroundColor();
     void setUpBusServiceLabel();
+    void resizeTable();
 
 signals:
     void showBusServicePage();
 
 private slots:
     void buttonClicked();
+    void updateNumberOfRequest(int rowNumber);
 
 private:
     QVBoxLayout *_widgetLayout;
     QString _busServiceNumber;
     QLabel *_busServiceLabel;
+    QTableWidget *_requestTable;
+    QVector<QTableWidgetItem*> _numberOfRequestItems;
+    QButtonGroup *_tickButtonGroup;
 
 private:
     static const int TABLE_COLUMN_NUMBER;

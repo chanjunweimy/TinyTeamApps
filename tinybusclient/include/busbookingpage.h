@@ -46,6 +46,7 @@ private:
     double calculateDistance(double latitude1, double longitude1,
                              double latitude2, double longitude2);
     double toRadiant(double degree);
+    void setButtonStyleSheet(QPushButton *button);
 
 private slots:
     void handleCellClicked(int row, int column);
