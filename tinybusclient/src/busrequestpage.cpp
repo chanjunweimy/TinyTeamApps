@@ -18,7 +18,7 @@ BusRequestPage::~BusRequestPage() {
     delete _widgetLayout;
     delete _requestTable;
     delete _busServiceLabel;
-    delete _tickButtonGroup;
+    //delete _tickButtonGroup;
 }
 
 void BusRequestPage::setUpBusServiceLabel() {
@@ -96,10 +96,6 @@ void BusRequestPage::resizeTable()
 }
 
 void BusRequestPage::addContentToTable() {
-    while (_requestTable->rowCount() > 0) {
-        _requestTable->removeRow(0);
-    }
-
     JsonReader *jr = JsonReader::getObject();
     connect (jr, SIGNAL(syncSuccess()),
              this, SLOT(addContentAfterSyncSuccess()));
@@ -110,6 +106,9 @@ void BusRequestPage::addContentToTable() {
 
 //private slots
 void BusRequestPage::addContentAfterSyncSuccess() {
+    while (_requestTable->rowCount() > 0) {
+        _requestTable->removeRow(0);
+    }
     JsonReader *jr = JsonReader::getObject();
     jr->loadBusRequestsJson();
     QVector<BusRequestObject> busRequestObjects = jr->getBusRequestObjects();
@@ -130,8 +129,12 @@ void BusRequestPage::addContentAfterSyncSuccess() {
     _tickButtonGroup = new QButtonGroup();
     requestsSize = busRequestObjects.size();
     for (int i = 0; i < requestsSize; i ++) {
-        _requestTable->insertRow(i);
         BusRequestObject curBusRequest = busRequestObjects.value(i);
+        if (curBusRequest.getNumberOfRequest() <= 0) {
+            continue;
+        }
+
+        _requestTable->insertRow(i);
         //column 1
         QString busStopString = curBusRequest.getBusStopNumber() + "\n" +
                                 curBusRequest.getBusStopName();

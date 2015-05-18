@@ -38,6 +38,10 @@ public:
     static void deleteObject();
 
 public:
+    bool createCustomerJson(QString busStopNumber,
+                            QString bus,
+                            QString filename);
+    bool saveJsonFile(QJsonObject jsonObject, QString filename);
     bool loadBusStopsJson();
     QVector <BusStopObject> getBusStopObjects();
     bool loadBusServicesJson();
@@ -46,6 +50,7 @@ public:
     QVector <BusRequestObject> getBusRequestObjects();
     QJsonArray getJsonArray();
     bool getDriverBusRequestsJsonFromServer();
+    bool sendFileToServer(QString filename);
 
 signals:
     void syncSuccess();

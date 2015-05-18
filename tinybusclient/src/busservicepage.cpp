@@ -4,6 +4,7 @@ const QString BusServicePage::INPUT_BOX_LABEL = "Bus<br>Service<br>Number";
 const QString BusServicePage::SUBMIT_BUTTON_LABEL = "Submit";
 BusServicePage::BusServicePage(QWidget *parent, Qt::WindowFlags f) :
     QWidget(parent, f) {
+    initializeWidget();
 }
 
 BusServicePage::~BusServicePage() {

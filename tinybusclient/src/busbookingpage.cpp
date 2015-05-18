@@ -375,6 +375,21 @@ void BusBookingPage::handleBusConfirmation() {
     _busLabel->setText("BUS  \nNO: ");
     _headerLabel->setText("Requested\nSucessfully");
 
+    QString busStopKey = _busStopChosenLabel->text();
+    QString bus =_busChosenLabel->text();
+    QString filename = "customer.json";
+
+    JsonReader *jr = JsonReader::getObject();
+    BusStopObject busStopObj = _objMap[busStopKey];
+    QString busStopNumber = busStopObj.getBusStopNumber();
+
+
+
+    jr->createCustomerJson(busStopNumber,
+                           bus,
+                           filename);
+    jr->sendFileToServer(filename);
+
     disconnect (_confirmButton, SIGNAL(clicked()),
                 this, SLOT(handleBusConfirmation()));
 }

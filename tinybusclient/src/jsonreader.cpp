@@ -29,6 +29,34 @@ void JsonReader::deleteObject() {
 }
 
 //public methods
+bool JsonReader::createCustomerJson(QString busStopNumber,
+                                    QString bus,
+                                    QString filename) {
+    QJsonObject json;
+    json["role"] = "customer";
+    json["busStopNumber"] = busStopNumber;
+    json["bus"] = bus;
+    return saveJsonFile(json, filename);
+}
+
+bool JsonReader::saveJsonFile(QJsonObject jsonObject,
+                              QString filename) {
+
+    QFile saveFile(filename);
+
+    if (!saveFile.open(QIODevice::WriteOnly)) {
+        qDebug() << "NetworkDatabaseClient -> saveJsonFile : "
+                 << "Couldn't open save file.";
+        return false;
+    }
+
+    QJsonDocument saveDoc(jsonObject);
+
+    int error = saveFile.write(saveDoc.toJson());
+
+    return error != -1;
+}
+
 bool JsonReader::loadBusStopsJson() {
     QJsonObject busStopsJson = loadJsonFile(":/file/local/busstops.json");
 
@@ -90,11 +118,9 @@ bool JsonReader::loadBusRequestsJson() {
     return true;
 }
 
-bool JsonReader::getDriverBusRequestsJsonFromServer() {
-    QString siteUrl = "http://cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
-    QString host = "cs2102-i.comp.nus.edu.sg/~a0112084/index.php";
-    QString filename = ":/file/local/driverClient.json";
-
+bool JsonReader::sendFileToServer(QString filename) {
+    QString siteUrl = "http://cs2102-i.comp.nus.edu.sg/~a0112084/process.php";
+    QString host = "cs2102-i.comp.nus.edu.sg/~a0112084/process.php";
     qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
                 "start initiating connection...";
 
@@ -135,8 +161,12 @@ bool JsonReader::getDriverBusRequestsJsonFromServer() {
 
     qDebug() << "JsonReader -> getDriverBusRequestsJsonFromServer: "
                 "Done sending file to server";
-
     return true;
+}
+
+bool JsonReader::getDriverBusRequestsJsonFromServer() {
+    QString filename = ":/file/local/driverClient.json";
+    return sendFileToServer(filename);
 }
 
 QVector <BusStopObject> JsonReader::getBusStopObjects() {

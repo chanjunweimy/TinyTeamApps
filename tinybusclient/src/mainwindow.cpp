@@ -51,7 +51,7 @@ MainWindow::~MainWindow() {
 void MainWindow::handleLoginSuccess(QString role) {
     _indexPage->hide();
     if (role == IndexPage::ROLE_DRIVER) {
-        _driverBusServicePage->initializeWidget();
+        //_driverBusServicePage->initializeWidget();
         _driverBusServicePage->show();
 
         _timer->start(5000);
