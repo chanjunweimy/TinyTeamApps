@@ -17,21 +17,22 @@ if ($json_file === NULL) {
 $str = file_get_contents('../busRequests.json');
 $json = json_decode($str, true); // decode the JSON into an associative array
 
-echo $jfo['busStopNumber'] . '\n';
-echo $jfo['bus'] . '\n';
+//echo $jfo['busStopNumber'] . '\n';
+//echo $jfo['bus'] . '\n';
 
 if ($jfo['role'] === 'driver') {
 	echo json_encode($json);
+	die;
 } else if ($jfo['role'] === 'customer') {
   foreach ($json['busRequests'] as $key => $value) {
 	if ($value['busStopNumber'] === $jfo['busStopNumber']
 			&& trimZeros($value['busServiceNumber']) === $jfo['bus']) {
-		echo 'something\n';
+		//echo 'something\n';
 		$value['numberOfRequest'] += 1;
 	}
   }
 }
-
+/*
 foreach ($json['busRequests'] as $key => $value) {
 	if (!is_array($value)) {
 		echo $key . '=>' . $value . '<br/>';
@@ -41,7 +42,7 @@ foreach ($json['busRequests'] as $key => $value) {
 		}
 	}
 }
-
+*/
 $fp = fopen('../busRequests.json', 'w');
 fwrite($fp, json_encode($json));
 fclose($fp);

@@ -54,7 +54,7 @@ void MainWindow::handleLoginSuccess(QString role) {
         //_driverBusServicePage->initializeWidget();
         _driverBusServicePage->show();
 
-        _timer->start(5000);
+        _timer->start(10000);
     } else if (role == IndexPage::ROLE_CUSTOMER) {
         _customerPage->updateBusStop();
         _customerPage->show();
